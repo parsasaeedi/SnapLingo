@@ -12,7 +12,9 @@ import SwiftData
 struct SnapLingoApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            GameSession.self,
+            GameItem.self,
+            UserProgress.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +27,7 @@ struct SnapLingoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SetupView()
         }
         .modelContainer(sharedModelContainer)
     }
