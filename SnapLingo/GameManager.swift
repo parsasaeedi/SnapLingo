@@ -198,4 +198,16 @@ class GameManager: ObservableObject {
         currentScore = 0
         currentStreak = 0
     }
+    
+    func skipCurrentItem() {
+        guard let currentItem = currentItem else { return }
+        
+        timer?.invalidate()
+        currentStreak = 0
+        currentItem.found = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.nextItem()
+        }
+    }
 }

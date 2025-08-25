@@ -7,21 +7,17 @@ struct GameSessionView: View {
     @EnvironmentObject var gameManager: GameManager
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss: DismissAction
+    @StateObject private var cameraService = CameraService()
     
     var body: some View {
         ZStack {
-            // Camera Background (simulated)
-            CameraBackgroundView()
+            // Camera Background
+            CameraBackgroundView(cameraService: cameraService)
             
             // Game UI Overlay
             VStack(spacing: 0) {
-                // Top Bar
+                // Top Bar with Prompt and Streak
                 topBar
-                
-                Spacer()
-                
-                // Center Content
-                centerContent
                 
                 Spacer()
                 
@@ -42,33 +38,73 @@ struct GameSessionView: View {
             if gameManager.showGameComplete {
                 gameCompleteOverlay
             }
+            
+            // Timer expired overlay
+            if gameManager.timeRemaining <= 0 && gameManager.isGameActive {
+                timerExpiredOverlay
+            }
         }
         .onAppear {
             gameManager.startSession(environment: environment, modelContext: modelContext)
+            cameraService.startSession()
         }
         .onDisappear {
             gameManager.resetGame()
+            cameraService.stopSession()
         }
     }
     
     private var topBar: some View {
-        HStack {
-            // Trophy and Score
-            HStack(spacing: 8) {
-                Image(systemName: "trophy.fill")
-                    .foregroundColor(.yellow)
-                Text("\(gameManager.currentScore)")
-                    .font(.headline)
-                    .fontWeight(.bold)
+        VStack(spacing: 12) {
+            // Top Row: Score, Timer, Close
+            HStack {
+                // Trophy and Score
+                HStack(spacing: 8) {
+                    Image(systemName: "trophy.fill")
+                        .foregroundColor(.yellow)
+                    Text("\(gameManager.currentScore)")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                )
+                
+                Spacer()
+                
+                // Timer
+                HStack(spacing: 4) {
+                    Image(systemName: "stopwatch")
+                    Text("\(Int(gameManager.timeRemaining))s")
+                        .fontWeight(.bold)
+                }
+                .foregroundColor(gameManager.timerColor)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                )
+                
+                Spacer()
+                
+                // Close Button
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .frame(width: 40, height: 40)
+                        .background(
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                        )
+                }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial)
-            )
-            
-            Spacer()
             
             // Search Target
             HStack(spacing: 8) {
@@ -83,53 +119,7 @@ struct GameSessionView: View {
                     .fill(.ultraThinMaterial)
             )
             
-            Spacer()
-            
-            // Timer
-            HStack(spacing: 4) {
-                Image(systemName: "stopwatch")
-                Text("\(Int(gameManager.timeRemaining))s")
-                    .fontWeight(.bold)
-            }
-            .foregroundColor(gameManager.timerColor)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial)
-            )
-        }
-    }
-    
-    private var centerContent: some View {
-        VStack(spacing: 20) {
-            // Progress Bar
-            ProgressView(value: gameManager.progress)
-                .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                .scaleEffect(x: 1, y: 2, anchor: .center)
-                .padding(.horizontal)
-            
-            // Current Item Display
-            if let currentItem = gameManager.currentItem {
-                VStack(spacing: 12) {
-                    Text("Find this object:")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    
-                    Text(currentItem.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
-                )
-            }
-            
-            // Streak Display
+            // Streak Display (moved under the prompt)
             if gameManager.currentStreak > 0 {
                 HStack(spacing: 8) {
                     Image(systemName: "flame.fill")
@@ -150,22 +140,6 @@ struct GameSessionView: View {
     
     private var bottomControls: some View {
         HStack {
-            // Cancel Button
-            Button(action: {
-                dismiss()
-            }) {
-                Image(systemName: "xmark")
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .frame(width: 50, height: 50)
-                    .background(
-                        Circle()
-                            .fill(.ultraThinMaterial)
-                    )
-            }
-            
-            Spacer()
-            
             // Shutter Button
             Button(action: {
                 gameManager.capturePhoto()
@@ -181,11 +155,11 @@ struct GameSessionView: View {
             
             Spacer()
             
-            // Next Button (placeholder)
+            // Skip Button
             Button(action: {
-                // Could be used for hints or skip
+                gameManager.skipCurrentItem()
             }) {
-                Image(systemName: "chevron.right")
+                Image(systemName: "arrow.right")
                     .font(.title2)
                     .foregroundColor(.white)
                     .frame(width: 50, height: 50)
@@ -193,6 +167,44 @@ struct GameSessionView: View {
                         Circle()
                             .fill(.ultraThinMaterial)
                     )
+            }
+        }
+        .padding(.bottom, 50)
+    }
+    
+    private var timerExpiredOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+            
+            VStack(spacing: 20) {
+                if let currentItem = gameManager.currentItem {
+                    // Show emoji or SF symbol
+                    if currentItem.emoji != "❓" {
+                        Text(currentItem.emoji)
+                            .font(.system(size: 80))
+                    } else {
+                        Image(systemName: "questionmark.circle.fill")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white)
+                    }
+                    
+                    Text("Time's up!")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    
+                    Text("The answer was: \(currentItem.name)")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .onAppear {
+            // Auto-advance after showing the answer
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                gameManager.nextItem()
             }
         }
     }
@@ -327,47 +339,41 @@ struct GameSessionView: View {
 }
 
 struct CameraBackgroundView: View {
+    let cameraService: CameraService
+    
     var body: some View {
         ZStack {
-            // Simulated camera view
-            Rectangle()
-                .fill(
-                    LinearGradient(
-                        colors: [Color(.systemGray5), Color(.systemGray6)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+            if cameraService.isAuthorized {
+                // Real camera preview would go here
+                // For now, using a gradient background
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color(.systemGray5), Color(.systemGray6)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
                     )
-                )
-            
-            // Simulated camera elements
-            VStack {
-                Spacer()
+            } else {
+                // Fallback background
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color(.systemGray5), Color(.systemGray6)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
                 
-                HStack {
-                    // Simulated furniture
-                    Rectangle()
-                        .fill(Color.brown.opacity(0.3))
-                        .frame(width: 100, height: 200)
-                        .overlay(
-                            Text("Chair")
-                                .font(.caption)
-                                .foregroundColor(.brown)
-                        )
+                VStack {
+                    Image(systemName: "camera.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(.secondary)
                     
-                    Spacer()
-                    
-                    Rectangle()
-                        .fill(Color.brown.opacity(0.3))
-                        .frame(width: 150, height: 80)
-                        .overlay(
-                            Text("Table")
-                                .font(.caption)
-                                .foregroundColor(.brown)
-                        )
+                    Text("Camera access required")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
                 }
-                .padding(.horizontal, 50)
-                
-                Spacer()
             }
         }
         .ignoresSafeArea()

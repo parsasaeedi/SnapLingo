@@ -20,7 +20,9 @@ struct SetupView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 30) {
+                // Add top padding for dynamic island
                 Spacer()
+                    .frame(height: 60)
                 
                 // App Logo and Title
                 VStack(spacing: 20) {
@@ -56,50 +58,54 @@ struct SetupView: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                     
-                    VStack(spacing: 0) {
-                        ForEach(languages, id: \.self) { language in
-                            Button(action: {
-                                selectedLanguage = language
-                            }) {
-                                HStack {
-                                    Text(language)
-                                        .foregroundColor(.primary)
-                                    
-                                    Spacer()
-                                    
-                                    if selectedLanguage == language {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .foregroundColor(.blue)
+                    // Make languages list scrollable with limited height
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(languages, id: \.self) { language in
+                                Button(action: {
+                                    selectedLanguage = language
+                                }) {
+                                    HStack {
+                                        Text(language)
+                                            .foregroundColor(.primary)
+                                        
+                                        Spacer()
+                                        
+                                        if selectedLanguage == language {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .foregroundColor(.blue)
+                                        }
                                     }
+                                    .padding()
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(.ultraThinMaterial)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(selectedLanguage == language ? Color.blue : Color.clear, lineWidth: 2)
+                                            )
+                                    )
                                 }
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(.ultraThinMaterial)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(selectedLanguage == language ? Color.blue : Color.clear, lineWidth: 2)
-                                        )
-                                )
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            
-                            if language != languages.last {
-                                Divider()
-                                    .padding(.horizontal)
+                                .buttonStyle(PlainButtonStyle())
+                                
+                                if language != languages.last {
+                                    Divider()
+                                        .padding(.horizontal)
+                                }
                             }
                         }
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.ultraThinMaterial)
+                        )
+                        .padding(.horizontal)
                     }
-                    .background(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.ultraThinMaterial)
-                    )
-                    .padding(.horizontal)
+                    .frame(maxHeight: 300) // Limit height and make scrollable
                 }
                 
                 Spacer()
                 
-                // Continue Button
+                // Continue Button with bottom padding
                 Button(action: {
                     showHomeMenu = true
                 }) {
@@ -119,7 +125,7 @@ struct SetupView: View {
                         )
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 50)
+                .padding(.bottom, 100) // Add more bottom padding
             }
             .background(
                 LinearGradient(

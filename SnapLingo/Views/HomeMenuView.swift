@@ -6,11 +6,27 @@ struct HomeMenuView: View {
     @StateObject private var gameManager = GameManager()
     @State private var showGameSession = false
     @State private var selectedEnvironment = ""
+    @State private var showSetupView = false
     
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    // Combined environments including coming soon ones
+    var allEnvironments: [EnvironmentItem] {
+        let availableEnvironments = GameEnvironment.environments.map { env in
+            EnvironmentItem(environment: env, isComingSoon: false)
+        }
+        
+        let comingSoonEnvironments = [
+            EnvironmentItem(name: "Park", icon: "tree.fill", color: .green, isComingSoon: true),
+            EnvironmentItem(name: "Downtown", icon: "building.2.fill", color: .orange, isComingSoon: true),
+            EnvironmentItem(name: "Kitchen", icon: "fork.knife", color: .red, isComingSoon: true)
+        ]
+        
+        return availableEnvironments + comingSoonEnvironments
+    }
     
     var body: some View {
         NavigationView {
@@ -29,7 +45,7 @@ struct HomeMenuView: View {
                     Spacer()
                     
                     Button(action: {
-                        // Show stats/profile
+                        showSetupView = true
                     }) {
                         Image(systemName: "person.circle.fill")
                             .font(.title2)
@@ -58,31 +74,19 @@ struct HomeMenuView: View {
                         
                         // Environment Grid
                         LazyVGrid(columns: columns, spacing: 16) {
-                            ForEach(GameEnvironment.environments, id: \.name) { environment in
+                            ForEach(allEnvironments, id: \.id) { item in
                                 EnvironmentCard(
-                                    environment: environment,
+                                    environmentItem: item,
                                     onTap: {
-                                        selectedEnvironment = environment.name
-                                        showGameSession = true
+                                        if !item.isComingSoon {
+                                            selectedEnvironment = item.name
+                                            showGameSession = true
+                                        }
                                     }
                                 )
                             }
                         }
                         .padding(.horizontal)
-                        
-                        // Coming Soon Section
-                        VStack(spacing: 16) {
-                            Text("More environments coming soon!")
-                                .font(.headline)
-                                .foregroundColor(.secondary)
-                            
-                            HStack(spacing: 20) {
-                                ComingSoonCard(title: "Park", icon: "tree.fill", color: .green)
-                                ComingSoonCard(title: "Downtown", icon: "building.2.fill", color: .orange)
-                                ComingSoonCard(title: "Kitchen", icon: "fork.knife", color: .red)
-                            }
-                        }
-                        .padding(.top, 20)
                     }
                     .padding(.bottom, 30)
                 }
@@ -100,33 +104,71 @@ struct HomeMenuView: View {
             GameSessionView(environment: selectedEnvironment)
                 .environmentObject(gameManager)
         }
+        .fullScreenCover(isPresented: $showSetupView) {
+            SetupView()
+        }
+    }
+}
+
+struct EnvironmentItem {
+    let id = UUID()
+    let name: String
+    let icon: String
+    let color: Color
+    let isComingSoon: Bool
+    let environment: GameEnvironment?
+    
+    init(environment: GameEnvironment, isComingSoon: Bool) {
+        self.name = environment.name
+        self.icon = environment.icon
+        self.color = .blue
+        self.isComingSoon = isComingSoon
+        self.environment = environment
+    }
+    
+    init(name: String, icon: String, color: Color, isComingSoon: Bool) {
+        self.name = name
+        self.icon = icon
+        self.color = color
+        self.isComingSoon = isComingSoon
+        self.environment = nil
     }
 }
 
 struct EnvironmentCard: View {
-    let environment: GameEnvironment
+    let environmentItem: EnvironmentItem
     let onTap: () -> Void
     
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 16) {
-                Image(systemName: environment.icon)
+                Image(systemName: environmentItem.icon)
                     .font(.system(size: 40))
-                    .foregroundStyle(.linearGradient(
-                        colors: [.blue, .purple],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ))
+                    .foregroundStyle(
+                        .linearGradient(
+                            colors: environmentItem.isComingSoon
+                                ? [environmentItem.color.opacity(0.6), environmentItem.color.opacity(0.6)]
+                                : [.blue, .purple],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
                 
                 VStack(spacing: 4) {
-                    Text(environment.name)
+                    Text(environmentItem.name)
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .foregroundColor(.primary)
+                        .foregroundColor(environmentItem.isComingSoon ? .secondary : .primary)
                     
-                    Text("\(environment.items.count) items")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    if let environment = environmentItem.environment {
+                        Text("\(environment.items.count) items")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text("Coming Soon")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
             .frame(maxWidth: .infinity)
@@ -139,33 +181,10 @@ struct EnvironmentCard: View {
                             .stroke(.quaternary, lineWidth: 1)
                     )
             )
+            .opacity(environmentItem.isComingSoon ? 0.5 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
-    }
-}
-
-struct ComingSoonCard: View {
-    let title: String
-    let icon: String
-    let color: Color
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(color.opacity(0.6))
-            
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
-                .opacity(0.5)
-        )
+        .disabled(environmentItem.isComingSoon)
     }
 }
 
