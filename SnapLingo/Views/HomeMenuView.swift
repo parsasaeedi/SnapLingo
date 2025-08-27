@@ -91,13 +91,6 @@ struct HomeMenuView: View {
                     .padding(.bottom, 30)
                 }
             }
-            .background(
-                LinearGradient(
-                    colors: [Color(.systemBackground), Color(.systemGray6)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
             .navigationBarHidden(true)
         }
         .fullScreenCover(isPresented: $showGameSession) {

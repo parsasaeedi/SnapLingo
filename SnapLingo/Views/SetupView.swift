@@ -127,13 +127,6 @@ struct SetupView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 100) // Add more bottom padding
             }
-            .background(
-                LinearGradient(
-                    colors: [Color(.systemBackground), Color(.systemGray6)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
             .navigationBarHidden(true)
         }
         .fullScreenCover(isPresented: $showHomeMenu) {
