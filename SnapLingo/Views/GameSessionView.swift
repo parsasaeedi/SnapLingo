@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import AVFoundation
+import Combine
 
 struct GameSessionView: View {
     let environment: String
@@ -8,6 +9,7 @@ struct GameSessionView: View {
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss: DismissAction
     @StateObject private var cameraService = CameraService()
+    @State private var cameraStarted = false
     
     var body: some View {
         ZStack {
@@ -46,11 +48,17 @@ struct GameSessionView: View {
         }
         .onAppear {
             gameManager.startSession(environment: environment, modelContext: modelContext)
-            cameraService.startSession()
+        }
+        .onReceive(cameraService.$isConfigured) { isConfigured in
+            if isConfigured && !cameraStarted {
+                cameraService.startSession()
+                cameraStarted = true
+            }
         }
         .onDisappear {
             gameManager.resetGame()
             cameraService.stopSession()
+            cameraStarted = false
         }
     }
     

@@ -7,10 +7,12 @@ import Combine
 class CameraService: NSObject, ObservableObject {
     @Published var isAuthorized = false
     @Published var error: CameraError?
+    @Published var isConfigured = false
     
     private let session = AVCaptureSession()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let photoOutput = AVCapturePhotoOutput()
+    private var isConfiguring = false
     
     override init() {
         super.init()
@@ -58,38 +60,58 @@ class CameraService: NSObject, ObservableObject {
     }
     
     private func setupSession() {
-        session.beginConfiguration()
+        guard !isConfiguring else { return }
+        isConfiguring = true
         
-        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
-            error = .deviceNotFound
-            return
-        }
-        
-        do {
-            let videoInput = try AVCaptureDeviceInput(device: videoDevice)
-            if session.canAddInput(videoInput) {
-                session.addInput(videoInput)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            self.session.beginConfiguration()
+            
+            guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
+                DispatchQueue.main.async {
+                    self.error = .deviceNotFound
+                    self.isConfiguring = false
+                }
+                return
             }
             
-            if session.canAddOutput(videoOutput) {
-                session.addOutput(videoOutput)
+            do {
+                let videoInput = try AVCaptureDeviceInput(device: videoDevice)
+                if self.session.canAddInput(videoInput) {
+                    self.session.addInput(videoInput)
+                }
+                
+                if self.session.canAddOutput(self.videoOutput) {
+                    self.session.addOutput(self.videoOutput)
+                }
+                
+                if self.session.canAddOutput(self.photoOutput) {
+                    self.session.addOutput(self.photoOutput)
+                }
+                
+                self.session.commitConfiguration()
+                
+                DispatchQueue.main.async {
+                    self.isConfigured = true
+                    self.isConfiguring = false
+                }
+                
+            } catch {
+                DispatchQueue.main.async {
+                    self.error = .sessionConfigurationFailed
+                    self.isConfiguring = false
+                }
             }
-            
-            if session.canAddOutput(photoOutput) {
-                session.addOutput(photoOutput)
-            }
-            
-            session.commitConfiguration()
-            
-        } catch {
-            self.error = .sessionConfigurationFailed
         }
     }
     
     func startSession() {
         guard !session.isRunning else { return }
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.session.startRunning()
+        guard isConfigured else { return }
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.session.startRunning()
         }
     }
     
