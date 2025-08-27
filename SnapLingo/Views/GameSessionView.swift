@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import AVFoundation
 import Combine
+import AVFoundation  // make sure this import exists at the top
 
 struct GameSessionView: View {
     let environment: String
@@ -53,12 +54,8 @@ struct GameSessionView: View {
         }
         .onAppear {
             gameManager.startSession(environment: environment, modelContext: modelContext)
-        }
-        .onReceive(cameraService.$isConfigured) { isConfigured in
-            if isConfigured && !cameraStarted {
-                cameraService.startSession()
-                cameraStarted = true
-            }
+            cameraService.startSession()
+            cameraStarted = true
         }
         .onDisappear {
             gameManager.resetGame()
@@ -416,16 +413,10 @@ struct CameraBackgroundView: View {
     var body: some View {
         ZStack {
             if cameraService.isAuthorized {
-                // Real camera preview would go here
-                // For now, using a gradient background
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color(.systemGray5), Color(.systemGray6)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                // Real camera preview
+                CameraPreviewView(cameraService: cameraService, isConfigured: cameraService.isConfigured)
+                    .id(cameraService.isConfigured)
+                    .background(Color.clear)
             } else {
                 // Fallback background
                 Rectangle()
@@ -449,6 +440,52 @@ struct CameraBackgroundView: View {
             }
         }
         .ignoresSafeArea()
+    }
+}
+
+final class PreviewContainerView: UIView {
+    override class var layerClass: AnyClass { AVCaptureVideoPreviewLayer.self }
+    var previewLayer: AVCaptureVideoPreviewLayer { layer as! AVCaptureVideoPreviewLayer }
+}
+
+struct CameraPreviewView: UIViewRepresentable {
+    let cameraService: CameraService
+    let isConfigured: Bool
+
+    class Coordinator {
+        let previewLayer: AVCaptureVideoPreviewLayer
+        init(session: AVCaptureSession) {
+            self.previewLayer = AVCaptureVideoPreviewLayer(session: session)
+            self.previewLayer.videoGravity = .resizeAspectFill
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(session: cameraService.captureSession)
+    }
+
+    func makeUIView(context: Context) -> UIView {
+        let view = PreviewContainerView()
+        view.backgroundColor = .clear
+
+        let pl = view.previewLayer
+        pl.session = cameraService.captureSession
+        pl.videoGravity = .resizeAspectFill
+
+        if let c = pl.connection, c.isVideoRotationAngleSupported(90) {
+            c.videoRotationAngle = 90  // portrait
+        }
+        return view
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {
+        guard let view = uiView as? PreviewContainerView else { return }
+        let pl = view.previewLayer
+        if pl.session == nil { pl.session = cameraService.captureSession }
+        pl.frame = view.bounds
+        if let c = pl.connection, c.isVideoRotationAngleSupported(90) {
+            c.videoRotationAngle = 90
+        }
     }
 }
 

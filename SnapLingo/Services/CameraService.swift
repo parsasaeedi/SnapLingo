@@ -13,6 +13,10 @@ class CameraService: NSObject, ObservableObject {
     private let videoOutput = AVCaptureVideoDataOutput()
     private let photoOutput = AVCapturePhotoOutput()
     private var isConfiguring = false
+    private var previewLayer: AVCaptureVideoPreviewLayer?
+    
+    // Expose the session for preview layers
+    var captureSession: AVCaptureSession { session }
     
     override init() {
         super.init()
@@ -67,6 +71,7 @@ class CameraService: NSObject, ObservableObject {
             guard let self = self else { return }
             
             self.session.beginConfiguration()
+            self.session.sessionPreset = .photo
             
             guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
                 DispatchQueue.main.async {
@@ -78,20 +83,36 @@ class CameraService: NSObject, ObservableObject {
             
             do {
                 let videoInput = try AVCaptureDeviceInput(device: videoDevice)
+                // Set continuous autofocus/exposure if supported
+                try? videoDevice.lockForConfiguration()
+                if videoDevice.isFocusModeSupported(.continuousAutoFocus) {
+                    videoDevice.focusMode = .continuousAutoFocus
+                }
+                if videoDevice.isExposureModeSupported(.continuousAutoExposure) {
+                    videoDevice.exposureMode = .continuousAutoExposure
+                }
+                videoDevice.unlockForConfiguration()
+
                 if self.session.canAddInput(videoInput) {
                     self.session.addInput(videoInput)
                 }
-                
-                if self.session.canAddOutput(self.videoOutput) {
-                    self.session.addOutput(self.videoOutput)
-                }
-                
+
+                // Removed videoOutput addition
+                // if self.session.canAddOutput(self.videoOutput) {
+                //     self.session.addOutput(self.videoOutput)
+                // }
+
                 if self.session.canAddOutput(self.photoOutput) {
                     self.session.addOutput(self.photoOutput)
                 }
                 
                 self.session.commitConfiguration()
-                
+
+                // Start the session immediately
+                if !self.session.isRunning {
+                    self.session.startRunning()
+                }
+
                 DispatchQueue.main.async {
                     self.isConfigured = true
                     self.isConfiguring = false
@@ -108,9 +129,7 @@ class CameraService: NSObject, ObservableObject {
     
     func startSession() {
         guard !session.isRunning else { return }
-        guard isConfigured else { return }
-        
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.session.startRunning()
         }
     }
@@ -118,6 +137,10 @@ class CameraService: NSObject, ObservableObject {
     func stopSession() {
         guard session.isRunning else { return }
         session.stopRunning()
+    }
+    
+    func getPreviewLayer() -> AVCaptureVideoPreviewLayer? {
+        return previewLayer
     }
     
     // Future: Object detection using Vision and Core ML
