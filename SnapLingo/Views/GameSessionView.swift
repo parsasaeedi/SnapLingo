@@ -16,7 +16,7 @@ struct GameSessionView: View {
             
             // Game UI Overlay
             VStack(spacing: 0) {
-                // Top Bar with Prompt and Streak
+                // Top Bar with Progress
                 topBar
                 
                 Spacer()
@@ -55,8 +55,8 @@ struct GameSessionView: View {
     }
     
     private var topBar: some View {
-        VStack(spacing: 12) {
-            // Top Row: Score, Timer, Close
+        VStack(spacing: 16) {
+            // Top Row: Score, Timer, Progress
             HStack {
                 // Trophy and Score
                 HStack(spacing: 8) {
@@ -75,11 +75,12 @@ struct GameSessionView: View {
                 
                 Spacer()
                 
-                // Timer
+                // Timer (centered with fixed width)
                 HStack(spacing: 4) {
                     Image(systemName: "stopwatch")
                     Text("\(Int(gameManager.timeRemaining))s")
                         .fontWeight(.bold)
+                        .frame(minWidth: 30, alignment: .leading)
                 }
                 .foregroundColor(gameManager.timerColor)
                 .padding(.horizontal, 12)
@@ -88,43 +89,49 @@ struct GameSessionView: View {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.ultraThinMaterial)
                 )
+                .frame(width: 80) // Fixed width for consistent positioning
                 
                 Spacer()
                 
-                // Close Button
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "xmark")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(width: 40, height: 40)
-                        .background(
-                            Circle()
-                                .fill(.ultraThinMaterial)
-                        )
+                // Progress with Flag
+                HStack(spacing: 8) {
+                    Image(systemName: "flag.fill")
+                        .foregroundColor(.blue)
+                    Text("\(gameManager.currentItemIndex + 1)/\(gameManager.currentSession?.items.count ?? 0)")
+                        .fontWeight(.semibold)
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                )
             }
             
-            // Search Target
+            // Search Target (bigger prompt)
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                 Text(gameManager.currentItem?.name ?? "")
+                    .font(.title2)
                     .fontWeight(.semibold)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 25)
                     .fill(.ultraThinMaterial)
             )
-            
-            // Streak Display (moved under the prompt)
+        }
+    }
+    
+    private var bottomControls: some View {
+        VStack(spacing: 20) {
+            // Streak Display (above shutter button)
             if gameManager.currentStreak > 0 {
                 HStack(spacing: 8) {
                     Image(systemName: "flame.fill")
                         .foregroundColor(.orange)
-                    Text("Streak: \(gameManager.currentStreak)")
+                    Text("streak: \(gameManager.currentStreak)")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                 }
@@ -135,38 +142,57 @@ struct GameSessionView: View {
                         .fill(.ultraThinMaterial)
                 )
             }
-        }
-    }
-    
-    private var bottomControls: some View {
-        HStack {
-            // Shutter Button
-            Button(action: {
-                gameManager.capturePhoto()
-            }) {
-                Circle()
-                    .fill(.white)
-                    .frame(width: 80, height: 80)
-                    .overlay(
-                        Circle()
-                            .stroke(.blue, lineWidth: 4)
-                    )
-            }
             
-            Spacer()
-            
-            // Skip Button
-            Button(action: {
-                gameManager.skipCurrentItem()
-            }) {
-                Image(systemName: "arrow.right")
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .frame(width: 50, height: 50)
-                    .background(
+            // Control Buttons
+            HStack {
+                // Exit Button (bottom left)
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .frame(width: 50, height: 50)
+                        .background(
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                        )
+                }
+                
+                Spacer()
+                
+                // Shutter Button (two circles design)
+                Button(action: {
+                    gameManager.capturePhoto()
+                }) {
+                    ZStack {
+                        // Outer circle - white frosted glass
                         Circle()
                             .fill(.ultraThinMaterial)
-                    )
+                            .frame(width: 80, height: 80)
+                        
+                        // Inner circle - solid white
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 60, height: 60)
+                    }
+                }
+                
+                Spacer()
+                
+                // Skip Button (bottom right)
+                Button(action: {
+                    gameManager.skipCurrentItem()
+                }) {
+                    Image(systemName: "arrow.right")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .frame(width: 50, height: 50)
+                        .background(
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                        )
+                }
             }
         }
         .padding(.bottom, 50)
