@@ -146,6 +146,7 @@ struct EnvironmentCard: View {
                             endPoint: .bottomTrailing
                         )
                     )
+                    .frame(height: 40) // Fixed height for consistent sizing
                 
                 VStack(spacing: 4) {
                     Text(environmentItem.name)
@@ -164,7 +165,7 @@ struct EnvironmentCard: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, minHeight: 120) // Fixed minimum height for consistency
             .padding(.vertical, 24)
             .background(
                 RoundedRectangle(cornerRadius: 20)

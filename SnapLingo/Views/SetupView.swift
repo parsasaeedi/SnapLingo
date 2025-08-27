@@ -19,10 +19,10 @@ struct SetupView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 30) {
+            VStack(spacing: 10) {
                 // Add top padding for dynamic island
                 Spacer()
-                    .frame(height: 60)
+                    .frame(height: 10)
                 
                 // App Logo and Title
                 VStack(spacing: 20) {
@@ -79,10 +79,10 @@ struct SetupView: View {
                                     .padding()
                                     .background(
                                         RoundedRectangle(cornerRadius: 12)
-                                            .fill(.ultraThinMaterial)
+                                            .fill(Color.clear)
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .stroke(selectedLanguage == language ? Color.blue : Color.clear, lineWidth: 2)
+                                                    .stroke(selectedLanguage == language ? Color.blue : Color.clear, lineWidth: 0)
                                             )
                                     )
                                 }
@@ -95,12 +95,25 @@ struct SetupView: View {
                             }
                         }
                         .background(
-                            RoundedRectangle(cornerRadius: 16)
+                            RoundedRectangle(cornerRadius: 12)
                                 .fill(.ultraThinMaterial)
                         )
                         .padding(.horizontal)
                     }
-                    .frame(maxHeight: 300) // Limit height and make scrollable
+                    .frame(maxHeight: 350) // Limit height and make scrollable
+                    .overlay(
+                        // Gradient fade at bottom
+                        VStack {
+                            Spacer()
+                            LinearGradient(
+                                colors: [Color.clear, Color(.systemBackground)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 20)
+                        }
+                        .allowsHitTesting(false)
+                    )
                 }
                 
                 Spacer()
@@ -116,7 +129,7 @@ struct SetupView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(
-                            RoundedRectangle(cornerRadius: 16)
+                            RoundedRectangle(cornerRadius: 30)
                                 .fill(.linearGradient(
                                     colors: [.blue, .purple],
                                     startPoint: .leading,
@@ -125,7 +138,7 @@ struct SetupView: View {
                         )
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 100) // Add more bottom padding
+                .padding(.bottom, 10) // Add more bottom padding
             }
             .navigationBarHidden(true)
         }

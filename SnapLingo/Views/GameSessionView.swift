@@ -45,6 +45,11 @@ struct GameSessionView: View {
             if gameManager.timeRemaining <= 0 && gameManager.isGameActive {
                 timerExpiredOverlay
             }
+            
+            // Skip overlay
+            if gameManager.showSkipOverlay {
+                skipOverlay
+            }
         }
         .onAppear {
             gameManager.startSession(environment: environment, modelContext: modelContext)
@@ -83,12 +88,12 @@ struct GameSessionView: View {
                 
                 Spacer()
                 
-                // Timer (centered with fixed width)
+                // Timer (centered with fixed width and center-aligned text)
                 HStack(spacing: 4) {
                     Image(systemName: "stopwatch")
                     Text("\(Int(gameManager.timeRemaining))s")
                         .fontWeight(.bold)
-                        .frame(minWidth: 30, alignment: .leading)
+                        .frame(minWidth: 30, alignment: .center)
                 }
                 .foregroundColor(gameManager.timerColor)
                 .padding(.horizontal, 12)
@@ -153,7 +158,7 @@ struct GameSessionView: View {
             
             // Control Buttons
             HStack {
-                // Exit Button (bottom left)
+                // Exit Button (bottom left with more padding)
                 Button(action: {
                     dismiss()
                 }) {
@@ -166,10 +171,11 @@ struct GameSessionView: View {
                                 .fill(.ultraThinMaterial)
                         )
                 }
+                .padding(.leading, 40)
                 
                 Spacer()
                 
-                // Shutter Button (two circles design)
+                // Shutter Button (larger two circles design)
                 Button(action: {
                     gameManager.capturePhoto()
                 }) {
@@ -177,18 +183,18 @@ struct GameSessionView: View {
                         // Outer circle - white frosted glass
                         Circle()
                             .fill(.ultraThinMaterial)
-                            .frame(width: 80, height: 80)
+                            .frame(width: 90, height: 90)
                         
                         // Inner circle - solid white
                         Circle()
                             .fill(.white)
-                            .frame(width: 60, height: 60)
+                            .frame(width: 75, height: 75)
                     }
                 }
                 
                 Spacer()
                 
-                // Skip Button (bottom right)
+                // Skip Button (bottom right with more padding)
                 Button(action: {
                     gameManager.skipCurrentItem()
                 }) {
@@ -201,9 +207,10 @@ struct GameSessionView: View {
                                 .fill(.ultraThinMaterial)
                         )
                 }
+                .padding(.trailing, 40)
             }
         }
-        .padding(.bottom, 50)
+        .padding(.bottom, 0) // Move buttons closer to bottom edge
     }
     
     private var timerExpiredOverlay: some View {
@@ -222,12 +229,12 @@ struct GameSessionView: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text("Time's up!")
+                    Text("\(currentItem.name)")
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
-                    Text("The answer was: \(currentItem.name)")
+                    Text("Time's up!")
                         .font(.subheadline)
                         .foregroundColor(.white.opacity(0.8))
                         .multilineTextAlignment(.center)
@@ -241,6 +248,37 @@ struct GameSessionView: View {
                 gameManager.nextItem()
             }
         }
+    }
+    
+    private var skipOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+            
+            VStack(spacing: 20) {
+                if let currentItem = gameManager.currentItem {
+                    // Show emoji or SF symbol
+                    if currentItem.emoji != "❓" {
+                        Text(currentItem.emoji)
+                            .font(.system(size: 80))
+                    } else {
+                        Image(systemName: "questionmark.circle.fill")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white)
+                    }
+                    
+                    Text("\(currentItem.name)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    
+                    Text("Skipped!")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                }
+            }
+        }
+        .ignoresSafeArea()
     }
     
     private var itemNotFoundOverlay: some View {
@@ -257,7 +295,7 @@ struct GameSessionView: View {
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                 
-                Text("Try again or wait for the timer to see the answer")
+                Text("Try again or skip")
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.8))
                     .multilineTextAlignment(.center)

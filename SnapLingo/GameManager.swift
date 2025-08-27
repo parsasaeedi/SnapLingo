@@ -12,6 +12,7 @@ class GameManager: ObservableObject {
     @Published var showItemNotFound = false
     @Published var showItemFound = false
     @Published var showGameComplete = false
+    @Published var showSkipOverlay = false
     @Published var currentScore = 0
     @Published var currentStreak = 0
     
@@ -81,8 +82,8 @@ class GameManager: ObservableObject {
         
         timeRemaining -= 1.0
         
-        // Haptic feedback at specific times
-        if timeRemaining == 5 || timeRemaining == 3 || timeRemaining == 1 {
+        // Haptic feedback at specific times (changed from 5,3,1 to 3,2,1)
+        if timeRemaining == 3 || timeRemaining == 2 || timeRemaining == 1 {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
         }
@@ -161,9 +162,24 @@ class GameManager: ObservableObject {
         }
     }
     
+    func skipCurrentItem() {
+        guard let currentItem = currentItem else { return }
+        
+        timer?.invalidate()
+        currentStreak = 0
+        currentItem.found = false
+        showSkipOverlay = true
+        
+        // Show the answer briefly before moving to next item (similar to timer expiration)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.nextItem()
+        }
+    }
+    
     func nextItem() {
         showItemFound = false
         showItemNotFound = false
+        showSkipOverlay = false
         
         currentItemIndex += 1
         
@@ -195,19 +211,8 @@ class GameManager: ObservableObject {
         showItemNotFound = false
         showItemFound = false
         showGameComplete = false
+        showSkipOverlay = false
         currentScore = 0
         currentStreak = 0
-    }
-    
-    func skipCurrentItem() {
-        guard let currentItem = currentItem else { return }
-        
-        timer?.invalidate()
-        currentStreak = 0
-        currentItem.found = false
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.nextItem()
-        }
     }
 }
