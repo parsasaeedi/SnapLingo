@@ -3,8 +3,8 @@ import SwiftUI
 struct SetupView: View {
     @State private var selectedLanguage = "English"
     @State private var showHomeMenu = false
-    
-    let languages = [
+
+    private let languages = [
         "English",
         "Spanish",
         "French",
@@ -16,135 +16,161 @@ struct SetupView: View {
         "Chinese",
         "Arabic"
     ]
-    
+
+    // Extract gradients so type inference is trivial
+    private var brandGradientDiagonal: LinearGradient {
+        LinearGradient(
+            colors: [.blue, .purple],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    private var brandGradientHorizontal: LinearGradient {
+        LinearGradient(
+            colors: [.blue, .purple],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+
     var body: some View {
         NavigationView {
             VStack(spacing: 10) {
-                // Add top padding for dynamic island
+                Spacer().frame(height: 10)
+
+                headerSection
+
                 Spacer()
-                    .frame(height: 10)
-                
-                // App Logo and Title
-                VStack(spacing: 20) {
-                    Image(systemName: "camera.viewfinder")
-                        .font(.system(size: 80))
-                        .foregroundStyle(.linearGradient(
-                            colors: [.blue, .purple],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ))
-                    
-                    Text("SnapLingo")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.linearGradient(
-                            colors: [.blue, .purple],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ))
-                    
-                    Text("Learn languages through photo scavenger hunts")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-                
+
+                languageSection
+
                 Spacer()
-                
-                // Language Selection
-                VStack(spacing: 20) {
-                    Text("Choose your language")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                    
-                    // Make languages list scrollable with limited height
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            ForEach(languages, id: \.self) { language in
-                                Button(action: {
-                                    selectedLanguage = language
-                                }) {
-                                    HStack {
-                                        Text(language)
-                                            .foregroundColor(.primary)
-                                        
-                                        Spacer()
-                                        
-                                        if selectedLanguage == language {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                    .padding()
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .fill(Color.clear)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 12)
-                                                    .stroke(selectedLanguage == language ? Color.blue : Color.clear, lineWidth: 0)
-                                            )
-                                    )
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                
-                                if language != languages.last {
-                                    Divider()
-                                        .padding(.horizontal)
-                                }
-                            }
-                        }
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(.ultraThinMaterial)
-                        )
-                        .padding(.horizontal)
-                    }
-                    .frame(maxHeight: 350) // Limit height and make scrollable
-                    .overlay(
-                        // Gradient fade at bottom
-                        VStack {
-                            Spacer()
-                            LinearGradient(
-                                colors: [Color.clear, Color(.systemBackground)],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .frame(height: 20)
-                        }
-                        .allowsHitTesting(false)
-                    )
-                }
-                
-                Spacer()
-                
-                // Continue Button with bottom padding
-                Button(action: {
-                    showHomeMenu = true
-                }) {
-                    Text("Continue")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 30)
-                                .fill(.linearGradient(
-                                    colors: [.blue, .purple],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ))
-                        )
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 10) // Add more bottom padding
+
+                continueButton
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
             }
             .navigationBarHidden(true)
         }
         .fullScreenCover(isPresented: $showHomeMenu) {
             HomeMenuView()
         }
+    }
+
+    // MARK: - Sections
+
+    private var headerSection: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "camera.viewfinder")
+                .font(.system(size: 80))
+                .foregroundStyle(brandGradientDiagonal)
+
+            Text("SnapLingo")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundStyle(brandGradientHorizontal)
+
+            Text("Learn languages through photo scavenger hunts")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+    }
+
+    private var languageSection: some View {
+        VStack(spacing: 20) {
+            Text("Choose your language")
+                .font(.title2)
+                .fontWeight(.semibold)
+
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(languages, id: \.self) { language in
+                        LanguageRow(
+                            language: language,
+                            isSelected: selectedLanguage == language
+                        ) {
+                            selectedLanguage = language
+                        }
+
+                        if language != languages.last {
+                            Divider().padding(.horizontal)
+                        }
+                    }
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(.ultraThinMaterial)
+                )
+                .padding(.horizontal)
+            }
+            .frame(maxHeight: 350)
+            .overlay(
+                VStack {
+                    Spacer()
+                    LinearGradient(
+                        colors: [Color.clear, Color(UIColor.systemBackground)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 20)
+                }
+                .allowsHitTesting(false)
+            )
+        }
+    }
+
+    private var continueButton: some View {
+        Button(action: { showHomeMenu = true }) {
+            Text("Continue")
+                .font(.title3)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(brandGradientHorizontal)
+                )
+        }
+    }
+}
+
+// MARK: - Subviews
+
+private struct LanguageRow: View {
+    let language: String
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack {
+                Text(language)
+                    .foregroundColor(.primary)
+
+                Spacer()
+
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? AnyShapeStyle(.ultraThinMaterial) : AnyShapeStyle(Color.clear))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
