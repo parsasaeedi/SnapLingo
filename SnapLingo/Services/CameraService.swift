@@ -83,6 +83,7 @@ class CameraService: NSObject, ObservableObject {
             
             do {
                 let videoInput = try AVCaptureDeviceInput(device: videoDevice)
+                
                 // Set continuous autofocus/exposure if supported
                 try? videoDevice.lockForConfiguration()
                 if videoDevice.isFocusModeSupported(.continuousAutoFocus) {
@@ -108,11 +109,6 @@ class CameraService: NSObject, ObservableObject {
                 
                 self.session.commitConfiguration()
 
-                // Start the session immediately
-                if !self.session.isRunning {
-                    self.session.startRunning()
-                }
-
                 DispatchQueue.main.async {
                     self.isConfigured = true
                     self.isConfiguring = false
@@ -129,7 +125,8 @@ class CameraService: NSObject, ObservableObject {
     
     func startSession() {
         guard !session.isRunning else { return }
-        DispatchQueue.main.async { [weak self] in
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.session.startRunning()
         }
     }

@@ -11,11 +11,29 @@ struct GameSessionView: View {
     @Environment(\.dismiss) private var dismiss: DismissAction
     @StateObject private var cameraService = CameraService()
     @State private var cameraStarted = false
+    @State private var showCameraLoading = true
     
     var body: some View {
         ZStack {
             // Camera Background
             CameraBackgroundView(cameraService: cameraService)
+            
+            // Loading overlay while camera initializes
+            if showCameraLoading && cameraService.isAuthorized {
+                Color.black.opacity(0.7)
+                    .overlay(
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .scaleEffect(1.5)
+                                .tint(.white)
+                            
+                            Text("Initializing camera...")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                        }
+                    )
+                    .ignoresSafeArea()
+            }
             
             // Game UI Overlay
             VStack(spacing: 0) {
@@ -54,8 +72,19 @@ struct GameSessionView: View {
         }
         .onAppear {
             gameManager.startSession(environment: environment, modelContext: modelContext)
-            cameraService.startSession()
-            cameraStarted = true
+            
+            // Start camera session after a brief delay to prevent UI freezing
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if !cameraStarted {
+                    cameraService.startSession()
+                    cameraStarted = true
+                }
+            }
+        }
+        .onReceive(cameraService.$isConfigured) { isConfigured in
+            if isConfigured {
+                showCameraLoading = false
+            }
         }
         .onDisappear {
             gameManager.resetGame()
