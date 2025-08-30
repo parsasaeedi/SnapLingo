@@ -12,6 +12,7 @@ struct GameSessionView: View {
     @Environment(\.dismiss) private var dismiss: DismissAction
     @StateObject private var cameraService = CameraService()
     private let imageClassifier = ImageClassificationService()
+    private let verifier = ObjectVerificationService()
     @State private var cameraStarted = false
     @State private var showCameraLoading = true
     
@@ -225,6 +226,22 @@ struct GameSessionView: View {
                             if !results.isEmpty {
                                 let formatted = results.map { "\($0.identifier) (\(String(format: "%.2f", $0.confidence)))" }.joined(separator: ", ")
                                 print("[Classifier] Results: \(formatted)")
+                            }
+
+                            // Verify against the prompted item's model_label using catalog.json
+                            if let currentWord = gameManager.currentItem?.name {
+                                let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
+                                let catalogItems = CatalogStore.shared.items(in: key)
+                                if let item = catalogItems.first(where: { $0.word == currentWord }) {
+                                    let preds = results.asClassifications()
+                                    _ = verifier.verifyAndLog(
+                                        modelLabels: item.model_label,
+                                        predictions: preds,
+                                        options: VerificationOptions(topK: 10, minConfidence: 0.4, enableFuzzy: true)
+                                    )
+                                } else {
+                                    print("[Verify] No catalog item found for word: \(currentWord)")
+                                }
                             }
                             // Continue existing game flow
                             gameManager.capturePhoto()
