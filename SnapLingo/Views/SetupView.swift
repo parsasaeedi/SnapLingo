@@ -4,18 +4,23 @@ struct SetupView: View {
     @State private var selectedLanguage = "English"
     @State private var showHomeMenu = false
 
-    private let languages = [
-        "English",
-        "Spanish",
-        "French",
-        "German",
-        "Italian",
-        "Portuguese",
-        "Japanese",
-        "Korean",
-        "Chinese",
-        "Arabic"
+    // Map of display label -> two-letter code
+    private let languageMap: [String: String] = [
+        "English": "en",
+        "Spanish": "es",
+        "French": "fr",
+        "German": "de",
+        "Italian": "it",
+        "Portuguese": "pt",
+        "Korean": "ko",
+        "Chinese": "zh",
+        "Arabic": "ar",
+        "Farsi": "fa",
+        "Japanese": "ja",
+        "Turkish": "tr",
+        "Polish": "pl"
     ]
+    private var languageLabels: [String] { languageMap.keys.sorted() }
 
     // Extract gradients so type inference is trivial
     private var brandGradientDiagonal: LinearGradient {
@@ -87,7 +92,7 @@ struct SetupView: View {
 
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(languages, id: \.self) { language in
+                    ForEach(languageLabels, id: \.self) { language in
                         LanguageRow(
                             language: language,
                             isSelected: selectedLanguage == language
@@ -95,7 +100,7 @@ struct SetupView: View {
                             selectedLanguage = language
                         }
 
-                        if language != languages.last {
+                        if language != languageLabels.last {
                             Divider().padding(.horizontal)
                         }
                     }
@@ -123,7 +128,11 @@ struct SetupView: View {
     }
 
     private var continueButton: some View {
-        Button(action: { showHomeMenu = true }) {
+        Button(action: {
+            let code = languageMap[selectedLanguage] ?? "en"
+            print("Selected language code: \(code)")
+            showHomeMenu = true
+        }) {
             Text("Continue")
                 .font(.title3)
                 .fontWeight(.semibold)
