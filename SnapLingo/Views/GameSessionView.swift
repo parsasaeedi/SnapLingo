@@ -10,6 +10,7 @@ struct GameSessionView: View {
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss: DismissAction
     @StateObject private var cameraService = CameraService()
+    private let imageClassifier = ImageClassificationService()
     @State private var cameraStarted = false
     @State private var showCameraLoading = true
     
@@ -206,7 +207,23 @@ struct GameSessionView: View {
                 
                 // Shutter Button (larger two circles design)
                 Button(action: {
-                    gameManager.capturePhoto()
+                    cameraService.capturePhoto { image in
+                        guard let image = image else {
+                            print("[Classifier] No image captured")
+                            gameManager.capturePhoto() // preserve existing flow
+                            return
+                        }
+                        imageClassifier.classify(image: image, topK: 10) { results in
+                            if results.isEmpty {
+                                print("[Classifier] No classifications")
+                            } else {
+                                let formatted = results.map { "\($0.identifier) (\(String(format: "%.2f", $0.confidence)))" }.joined(separator: ", ")
+                                print("[Classifier] Results: \(formatted)")
+                            }
+                            // Continue existing game flow
+                            gameManager.capturePhoto()
+                        }
+                    }
                 }) {
                     ZStack {
                         // Outer circle - white frosted glass

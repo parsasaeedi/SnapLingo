@@ -4,7 +4,7 @@ import CoreML
 import UIKit
 import Combine
 
-class CameraService: NSObject, ObservableObject {
+class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
     @Published var isAuthorized = false
     @Published var error: CameraError?
     @Published var isConfigured = false
@@ -14,6 +14,7 @@ class CameraService: NSObject, ObservableObject {
     private let photoOutput = AVCapturePhotoOutput()
     private var isConfiguring = false
     private var previewLayer: AVCaptureVideoPreviewLayer?
+    private var photoCaptureCompletion: ((UIImage?) -> Void)?
     
     // Expose the session for preview layers
     var captureSession: AVCaptureSession { session }
@@ -106,6 +107,7 @@ class CameraService: NSObject, ObservableObject {
                 if self.session.canAddOutput(self.photoOutput) {
                     self.session.addOutput(self.photoOutput)
                 }
+                self.photoOutput.isHighResolutionCaptureEnabled = true
                 
                 self.session.commitConfiguration()
 
@@ -145,5 +147,40 @@ class CameraService: NSObject, ObservableObject {
         // This would integrate with Vision framework and Core ML models
         // For now, return a simulated result
         return Double.random(in: 0...1) < 0.7
+    }
+
+    // MARK: - Photo Capture
+
+    func capturePhoto(completion: @escaping (UIImage?) -> Void) {
+        guard isAuthorized, isConfigured else { completion(nil); return }
+        photoCaptureCompletion = completion
+
+        let settings: AVCapturePhotoSettings
+        if photoOutput.availablePhotoCodecTypes.contains(AVVideoCodecType.jpeg) {
+            settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        } else {
+            settings = AVCapturePhotoSettings()
+        }
+        if #available(iOS 16.0, *) {
+            settings.maxPhotoDimensions = photoOutput.maxPhotoDimensions
+        }
+        photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+
+    // AVCapturePhotoCaptureDelegate
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard error == nil else {
+            let completion = photoCaptureCompletion; photoCaptureCompletion = nil
+            completion?(nil)
+            return
+        }
+
+        var image: UIImage? = nil
+        if let data = photo.fileDataRepresentation() {
+            image = UIImage(data: data)
+        }
+
+        let completion = photoCaptureCompletion; photoCaptureCompletion = nil
+        completion?(image)
     }
 }
