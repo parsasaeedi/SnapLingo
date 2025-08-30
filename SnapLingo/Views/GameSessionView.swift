@@ -234,17 +234,23 @@ struct GameSessionView: View {
                                 let catalogItems = CatalogStore.shared.items(in: key)
                                 if let item = catalogItems.first(where: { $0.word == currentWord }) {
                                     let preds = results.asClassifications()
-                                    _ = verifier.verifyAndLog(
+                                    let verification = verifier.verifyAndLog(
                                         modelLabels: item.model_label,
                                         predictions: preds,
                                         options: VerificationOptions(topK: 10, minConfidence: 0.4, enableFuzzy: true)
                                     )
+                                    if verification.isMatch {
+                                        gameManager.itemFound()
+                                    } else {
+                                        gameManager.itemNotFound()
+                                    }
                                 } else {
                                     print("[Verify] No catalog item found for word: \(currentWord)")
+                                    gameManager.itemNotFound()
                                 }
+                            } else {
+                                gameManager.itemNotFound()
                             }
-                            // Continue existing game flow
-                            gameManager.capturePhoto()
                         }
                     }
                 }) {
