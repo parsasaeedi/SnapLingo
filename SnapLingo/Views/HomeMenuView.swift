@@ -5,8 +5,7 @@ struct HomeMenuView: View {
     @Environment(\.modelContext) private var modelContext: ModelContext
     @StateObject private var gameManager = GameManager()
     @ObservedObject private var catalogStore = CatalogStore.shared
-    @State private var showGameSession = false
-    @State private var selectedEnvironment = ""
+    @State private var presentedEnv: PresentedEnv?
     @State private var showSetupView = false
     
     let columns = [
@@ -102,8 +101,17 @@ struct HomeMenuView: View {
                                     environmentItem: item,
                                     onTap: {
                                         if !item.isComingSoon {
-                                            selectedEnvironment = item.key
-                                            showGameSession = true
+                                            let key = item.key
+                                            var items = catalogStore.catalog.environments[key] ?? []
+                                            if items.isEmpty {
+                                                catalogStore.load()
+                                                items = catalogStore.catalog.environments[key] ?? []
+                                            }
+                                            guard !items.isEmpty else {
+                                                print("[HomeMenu] No items for environment: \(key)")
+                                                return
+                                            }
+                                            presentedEnv = PresentedEnv(key: key, items: items)
                                         }
                                     }
                                 )
@@ -116,8 +124,8 @@ struct HomeMenuView: View {
             }
             .navigationBarHidden(true)
         }
-        .fullScreenCover(isPresented: $showGameSession) {
-            GameSessionView(environment: selectedEnvironment)
+        .fullScreenCover(item: $presentedEnv) { env in
+            GameSessionView(environment: env.key, initialItems: env.items)
                 .environmentObject(gameManager)
         }
         .fullScreenCover(isPresented: $showSetupView) {
@@ -143,6 +151,12 @@ struct EnvironmentItem {
         self.isComingSoon = isComingSoon
         self.itemCount = itemCount
     }
+}
+
+struct PresentedEnv: Identifiable {
+    let key: String
+    let items: [Item]
+    var id: String { key }
 }
 
 struct EnvironmentCard: View {

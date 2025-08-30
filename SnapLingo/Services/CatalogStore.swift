@@ -7,7 +7,9 @@ final class CatalogStore: ObservableObject {
 
     @Published private(set) var catalog: Catalog = Catalog(environments: [:])
 
-    private init() { load() }
+    private init() { 
+        load() 
+    }
 
     func load() {
         guard let url = Bundle.main.url(forResource: "catalog", withExtension: "json") else {
@@ -27,6 +29,11 @@ final class CatalogStore: ObservableObject {
     // Convenience
     func items(in environment: String) -> [Item] {
         catalog.environments[environment, default: []]
+    }
+    
+    // Check if catalog is loaded
+    var isLoaded: Bool {
+        !catalog.environments.isEmpty
     }
 }
 

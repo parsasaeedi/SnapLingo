@@ -43,15 +43,20 @@ class GameManager: ObservableObject {
         }
     }
     
-    func startSession(environment: String, modelContext: ModelContext) {
+    func startSession(environment: String, items: [Item]? = nil, modelContext: ModelContext) {
         let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
         let session = GameSession(environment: key)
 
-        // Ensure catalog is loaded and try again if empty on first access
-        var itemsForEnv = CatalogStore.shared.catalog.environments[key] ?? []
-        if itemsForEnv.isEmpty {
-            CatalogStore.shared.load()
+        // Prefer provided items, else fetch from catalog
+        var itemsForEnv: [Item]
+        if let items, !items.isEmpty {
+            itemsForEnv = items
+        } else {
             itemsForEnv = CatalogStore.shared.catalog.environments[key] ?? []
+            if itemsForEnv.isEmpty {
+                CatalogStore.shared.load()
+                itemsForEnv = CatalogStore.shared.catalog.environments[key] ?? []
+            }
         }
 
         // Build prompts from catalog items
@@ -75,7 +80,8 @@ class GameManager: ObservableObject {
         timeRemaining = maxTime
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            Task { @MainActor in
+            // Ensure we hop to main actor explicitly without capturing self across tasks in Swift 6
+            DispatchQueue.main.async { [weak self] in
                 self?.updateTimer()
             }
         }

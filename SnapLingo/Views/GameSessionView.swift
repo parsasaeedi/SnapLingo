@@ -6,6 +6,7 @@ import AVFoundation  // make sure this import exists at the top
 
 struct GameSessionView: View {
     let environment: String
+    let initialItems: [Item]?
     @EnvironmentObject var gameManager: GameManager
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss: DismissAction
@@ -13,6 +14,11 @@ struct GameSessionView: View {
     private let imageClassifier = ImageClassificationService()
     @State private var cameraStarted = false
     @State private var showCameraLoading = true
+    
+    init(environment: String, initialItems: [Item]? = nil) {
+        self.environment = environment
+        self.initialItems = initialItems
+    }
     
     var body: some View {
         ZStack {
@@ -72,8 +78,13 @@ struct GameSessionView: View {
             }
         }
         .onAppear {
-            gameManager.startSession(environment: environment, modelContext: modelContext)
-            
+            // Start session, using pre-fetched items if provided; fallback to catalog
+            let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
+            let items = (initialItems?.isEmpty == false) ? initialItems : CatalogStore.shared.items(in: key)
+            #if DEBUG
+            print("[GameSessionView] Will start session for \(key) with items=\(items?.count ?? 0)")
+            #endif
+            gameManager.startSession(environment: environment, items: items, modelContext: modelContext)
             // Start camera session after a brief delay to prevent UI freezing
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 if !cameraStarted {
@@ -456,6 +467,8 @@ struct GameSessionView: View {
         return basePoints + perfectBonus + timeBonus
     }
 }
+
+// removed attemptStartSession logic (caused first-load race)
 
 struct CameraBackgroundView: View {
     let cameraService: CameraService
