@@ -59,9 +59,9 @@ class GameManager: ObservableObject {
             }
         }
 
-        // Build prompts from catalog items
-        let selected = Array(itemsForEnv.shuffled().prefix(12))
-        for item in selected {
+        // Build prompts from catalog items: shuffle once, then go linearly through all
+        let ordered = itemsForEnv.shuffled()
+        for item in ordered {
             let gameItem = GameItem(name: item.word, emoji: item.emoji, sessionId: session.id)
             session.items.append(gameItem)
         }
