@@ -107,7 +107,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
                 if self.session.canAddOutput(self.photoOutput) {
                     self.session.addOutput(self.photoOutput)
                 }
-                self.photoOutput.isHighResolutionCaptureEnabled = true
                 
                 self.session.commitConfiguration()
 

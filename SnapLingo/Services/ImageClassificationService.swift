@@ -27,18 +27,18 @@ final class ImageClassificationService {
     }
 
     /// Classify a UIImage and return top N results.
-    func classify(image: UIImage, topK: Int = 5, completion: @escaping ([Result]) -> Void) {
+    func classify(image: UIImage, topK: Int = 10, completion: @escaping ([Result]) -> Void) {
         guard let cg = image.cgImage else { completion([]); return }
         classify(cgImage: cg, orientation: image.cgImageOrientation, topK: topK, completion: completion)
     }
 
     /// Classify a CGImage and return top N results.
-    func classify(cgImage: CGImage, orientation: CGImagePropertyOrientation = .up, topK: Int = 5, completion: @escaping ([Result]) -> Void) {
+    func classify(cgImage: CGImage, orientation: CGImagePropertyOrientation = .up, topK: Int = 10, completion: @escaping ([Result]) -> Void) {
         guard let vnModel else { completion([]); return }
         queue.async {
             let request = VNCoreMLRequest(model: vnModel)
             request.imageCropAndScaleOption = .centerCrop
-            request.usesCPUOnly = false
+            // Let Vision choose the appropriate processing device (iOS 17+)
 
             let handler = VNImageRequestHandler(cgImage: cgImage, orientation: orientation)
             do {
@@ -53,12 +53,12 @@ final class ImageClassificationService {
     }
 
     /// Classify a CVPixelBuffer and return top N results.
-    func classify(pixelBuffer: CVPixelBuffer, orientation: CGImagePropertyOrientation = .up, topK: Int = 5, completion: @escaping ([Result]) -> Void) {
+    func classify(pixelBuffer: CVPixelBuffer, orientation: CGImagePropertyOrientation = .up, topK: Int = 10, completion: @escaping ([Result]) -> Void) {
         guard let vnModel else { completion([]); return }
         queue.async {
             let request = VNCoreMLRequest(model: vnModel)
             request.imageCropAndScaleOption = .centerCrop
-            request.usesCPUOnly = false
+            // Let Vision choose the appropriate processing device (iOS 17+)
 
             let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: orientation)
             do {
