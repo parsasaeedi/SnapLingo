@@ -1,0 +1,1293 @@
+{
+  "environments": {
+    "home": [
+      {
+        "word": "Umbrella",
+        "emoji": "☂️",
+        "model_label": "umbrella",
+        "translations": {
+          "es": "Paraguas",
+          "fr": "Parapluie",
+          "de": "Regenschirm",
+          "it": "Ombrello",
+          "pt": "Guarda-chuva",
+          "ko": "우산",
+          "zh": "雨伞",
+          "ar": "مظلة",
+          "fa": "چتر",
+          "ja": "傘",
+          "tr": "Şemsiye",
+          "pl": "Parasol"
+        }
+      },
+      {
+        "word": "Soccer ball",
+        "emoji": "⚽️",
+        "model_label": "soccer ball",
+        "translations": {
+          "es": "Balón de fútbol",
+          "fr": "Ballon de football",
+          "de": "Fußball",
+          "it": "Pallone da calcio",
+          "pt": "Bola de futebol",
+          "ko": "축구공",
+          "zh": "足球",
+          "ar": "كرة قدم",
+          "fa": "توپ فوتبال",
+          "ja": "サッカーボール",
+          "tr": "Futbol topu",
+          "pl": "Piłka nożna"
+        }
+      },
+      {
+        "word": "Basketball",
+        "emoji": "🏀",
+        "model_label": "basketball",
+        "translations": {
+          "es": "Balón de baloncesto",
+          "fr": "Ballon de basket",
+          "de": "Basketball",
+          "it": "Pallone da basket",
+          "pt": "Bola de basquete",
+          "ko": "농구공",
+          "zh": "篮球",
+          "ar": "كرة سلة",
+          "fa": "توپ بسکتبال",
+          "ja": "バスケットボール",
+          "tr": "Basketbol topu",
+          "pl": "Piłka do koszykówki"
+        }
+      },
+      {
+        "word": "Television",
+        "emoji": "📺",
+        "model_label": "television, television system",
+        "translations": {
+          "es": "Televisor",
+          "fr": "Téléviseur",
+          "de": "Fernseher",
+          "it": "Televisore",
+          "pt": "Televisão",
+          "ko": "텔레비전",
+          "zh": "电视",
+          "ar": "تلفاز",
+          "fa": "تلویزیون",
+          "ja": "テレビ",
+          "tr": "Televizyon",
+          "pl": "Telewizor"
+        }
+      },
+      {
+        "word": "Broom",
+        "emoji": "🧹",
+        "model_label": "broom",
+        "translations": {
+          "es": "Escoba",
+          "fr": "Balai",
+          "de": "Besen",
+          "it": "Scopa",
+          "pt": "Vassoura",
+          "ko": "빗자루",
+          "zh": "扫帚",
+          "ar": "مكنسة",
+          "fa": "جارو",
+          "ja": "ほうき",
+          "tr": "Süpürge",
+          "pl": "Miotła"
+        }
+      },
+      {
+        "word": "Toilet paper",
+        "emoji": "🧻",
+        "model_label": "toilet tissue, toilet paper, bathroom tissue",
+        "translations": {
+          "es": "Papel higiénico",
+          "fr": "Papier toilette",
+          "de": "Toilettenpapier",
+          "it": "Carta igienica",
+          "pt": "Papel higiênico",
+          "ko": "화장지",
+          "zh": "卫生纸",
+          "ar": "ورق تواليت",
+          "fa": "کاغذ توالت",
+          "ja": "トイレットペーパー",
+          "tr": "Tuvalet kağıdı",
+          "pl": "Papier toaletowy"
+        }
+      },
+      {
+        "word": "Watch",
+        "emoji": "⌚️",
+        "model_label": "digital watch",
+        "translations": {
+          "es": "Reloj",
+          "fr": "Montre",
+          "de": "Armbanduhr",
+          "it": "Orologio",
+          "pt": "Relógio",
+          "ko": "시계",
+          "zh": "手表",
+          "ar": "ساعة يد",
+          "fa": "ساعت مچی",
+          "ja": "腕時計",
+          "tr": "Kol saati",
+          "pl": "Zegarek"
+        }
+      },
+      {
+        "word": "Laptop",
+        "emoji": "💻",
+        "model_label": "laptop, laptop computer",
+        "translations": {
+          "es": "Portátil",
+          "fr": "Ordinateur portable",
+          "de": "Laptop",
+          "it": "Portatile",
+          "pt": "Notebook",
+          "ko": "노트북",
+          "zh": "笔记本电脑",
+          "ar": "لابتوب",
+          "fa": "لپ‌تاپ",
+          "ja": "ノートパソコン",
+          "tr": "Dizüstü bilgisayar",
+          "pl": "Laptop"
+        }
+      },
+      {
+        "word": "Teapot",
+        "emoji": "🫖",
+        "model_label": "teapot",
+        "translations": {
+          "es": "Tetera",
+          "fr": "Théière",
+          "de": "Teekanne",
+          "it": "Teiera",
+          "pt": "Bule de chá",
+          "ko": "찻주전자",
+          "zh": "茶壶",
+          "ar": "إبريق شاي",
+          "fa": "قوری",
+          "ja": "ティーポット",
+          "tr": "Demlik",
+          "pl": "Imbryk"
+        }
+      },
+      {
+        "word": "Frying pan",
+        "emoji": "🍳",
+        "model_label": "frying pan, frypan, skillet",
+        "translations": {
+          "es": "Sartén",
+          "fr": "Poêle",
+          "de": "Pfanne",
+          "it": "Padella",
+          "pt": "Frigideira",
+          "ko": "프라이팬",
+          "zh": "平底锅",
+          "ar": "مقلاة",
+          "fa": "تابه",
+          "ja": "フライパン",
+          "tr": "Tava",
+          "pl": "Patelnia"
+        }
+      },
+      {
+        "word": "Coffee mug",
+        "emoji": "☕️",
+        "model_label": "coffee mug",
+        "translations": {
+          "es": "Taza",
+          "fr": "Mug",
+          "de": "Becher",
+          "it": "Tazza",
+          "pt": "Caneca",
+          "ko": "머그컵",
+          "zh": "马克杯",
+          "ar": "كوب قهوة",
+          "fa": "ماگ",
+          "ja": "マグカップ",
+          "tr": "Kupa",
+          "pl": "Kubek"
+        }
+      },
+      {
+        "word": "Soap dispenser (bottle)",
+        "emoji": "🧴",
+        "model_label": "soap dispenser",
+        "translations": {
+          "es": "Dispensador de jabón",
+          "fr": "Distributeur de savon",
+          "de": "Seifenspender",
+          "it": "Dispenser di sapone",
+          "pt": "Dispensador de sabão",
+          "ko": "비누 디스펜서",
+          "zh": "皂液器",
+          "ar": "موزّع صابون",
+          "fa": "جا مایع صابون",
+          "ja": "ソープディスペンサー",
+          "tr": "Sabunluk",
+          "pl": "Dozownik mydła"
+        }
+      }
+    ],
+    "food": [
+      {
+        "word": "Apple",
+        "emoji": "🍏",
+        "model_label": "Granny Smith",
+        "translations": {
+          "es": "Manzana",
+          "fr": "Pomme",
+          "de": "Apfel",
+          "it": "Mela",
+          "pt": "Maçã",
+          "ko": "사과",
+          "zh": "苹果",
+          "ar": "تفاحة",
+          "fa": "سیب",
+          "ja": "りんご",
+          "tr": "Elma",
+          "pl": "Jabłko"
+        }
+      },
+      {
+        "word": "Banana",
+        "emoji": "🍌",
+        "model_label": "banana",
+        "translations": {
+          "es": "Plátano",
+          "fr": "Banane",
+          "de": "Banane",
+          "it": "Banana",
+          "pt": "Banana",
+          "ko": "바나나",
+          "zh": "香蕉",
+          "ar": "موز",
+          "fa": "موز",
+          "ja": "バナナ",
+          "tr": "Muz",
+          "pl": "Banan"
+        }
+      },
+      {
+        "word": "Lemon",
+        "emoji": "🍋",
+        "model_label": "lemon",
+        "translations": {
+          "es": "Limón",
+          "fr": "Citron",
+          "de": "Zitrone",
+          "it": "Limone",
+          "pt": "Limão",
+          "ko": "레몬",
+          "zh": "柠檬",
+          "ar": "ليمون",
+          "fa": "لیمو",
+          "ja": "レモン",
+          "tr": "Limon",
+          "pl": "Cytryna"
+        }
+      },
+      {
+        "word": "Orange",
+        "emoji": "🍊",
+        "model_label": "orange",
+        "translations": {
+          "es": "Naranja",
+          "fr": "Orange",
+          "de": "Orange",
+          "it": "Arancia",
+          "pt": "Laranja",
+          "ko": "오렌지",
+          "zh": "橙子",
+          "ar": "برتقال",
+          "fa": "پرتقال",
+          "ja": "オレンジ",
+          "tr": "Portakal",
+          "pl": "Pomarańcza"
+        }
+      },
+      {
+        "word": "Strawberry",
+        "emoji": "🍓",
+        "model_label": "strawberry",
+        "translations": {
+          "es": "Fresa",
+          "fr": "Fraise",
+          "de": "Erdbeere",
+          "it": "Fragola",
+          "pt": "Morango",
+          "ko": "딸기",
+          "zh": "草莓",
+          "ar": "فراولة",
+          "fa": "توت‌فرنگی",
+          "ja": "いちご",
+          "tr": "Çilek",
+          "pl": "Truskawka"
+        }
+      },
+      {
+        "word": "Pineapple",
+        "emoji": "🍍",
+        "model_label": "pineapple, ananas",
+        "translations": {
+          "es": "Piña",
+          "fr": "Ananas",
+          "de": "Ananas",
+          "it": "Ananas",
+          "pt": "Abacaxi",
+          "ko": "파인애플",
+          "zh": "菠萝",
+          "ar": "أناناس",
+          "fa": "آناناس",
+          "ja": "パイナップル",
+          "tr": "Ananas",
+          "pl": "Ananas"
+        }
+      },
+      {
+        "word": "Tomato",
+        "emoji": "🍅",
+        "model_label": "tomato",
+        "translations": {
+          "es": "Tomate",
+          "fr": "Tomate",
+          "de": "Tomate",
+          "it": "Pomodoro",
+          "pt": "Tomate",
+          "ko": "토마토",
+          "zh": "西红柿",
+          "ar": "طماطم",
+          "fa": "گوجه‌فرنگی",
+          "ja": "トマト",
+          "tr": "Domates",
+          "pl": "Pomidor"
+        }
+      },
+      {
+        "word": "Eggplant",
+        "emoji": "🍆",
+        "model_label": "eggplant",
+        "translations": {
+          "es": "Berenjena",
+          "fr": "Aubergine",
+          "de": "Aubergine",
+          "it": "Melanzana",
+          "pt": "Berinjela",
+          "ko": "가지",
+          "zh": "茄子",
+          "ar": "باذنجان",
+          "fa": "بادمجان",
+          "ja": "なす",
+          "tr": "Patlıcan",
+          "pl": "Bakłażan"
+        }
+      },
+      {
+        "word": "Broccoli",
+        "emoji": "🥦",
+        "model_label": "broccoli",
+        "translations": {
+          "es": "Brócoli",
+          "fr": "Brocoli",
+          "de": "Brokkoli",
+          "it": "Broccoli",
+          "pt": "Brócolis",
+          "ko": "브로콜리",
+          "zh": "西兰花",
+          "ar": "بروكلي",
+          "fa": "بروکلی",
+          "ja": "ブロッコリー",
+          "tr": "Brokoli",
+          "pl": "Brokuł"
+        }
+      },
+      {
+        "word": "Bell pepper",
+        "emoji": "🫑",
+        "model_label": "bell pepper",
+        "translations": {
+          "es": "Pimiento",
+          "fr": "Poivron",
+          "de": "Paprika",
+          "it": "Peperone",
+          "pt": "Pimentão",
+          "ko": "파프리카",
+          "zh": "甜椒",
+          "ar": "فلفل حلو",
+          "fa": "فلفل دلمه‌ای",
+          "ja": "パプリカ",
+          "tr": "Dolmalık biber",
+          "pl": "Papryka"
+        }
+      },
+      {
+        "word": "Mushroom",
+        "emoji": "🍄‍🟫",
+        "model_label": "mushroom",
+        "translations": {
+          "es": "Champiñón",
+          "fr": "Champignon",
+          "de": "Pilz",
+          "it": "Fungo",
+          "pt": "Cogumelo",
+          "ko": "버섯",
+          "zh": "蘑菇",
+          "ar": "فطر",
+          "fa": "قارچ",
+          "ja": "きのこ",
+          "tr": "Mantar",
+          "pl": "Grzyb"
+        }
+      }
+    ],
+    "pet_store": [
+      {
+        "word": "Hamster",
+        "emoji": "🐹",
+        "model_label": "hamster",
+        "translations": {
+          "es": "Hámster",
+          "fr": "Hamster",
+          "de": "Hamster",
+          "it": "Criceto",
+          "pt": "Hamster",
+          "ko": "햄스터",
+          "zh": "仓鼠",
+          "ar": "هامستر",
+          "fa": "همستر",
+          "ja": "ハムスター",
+          "tr": "Hamster",
+          "pl": "Chomik"
+        }
+      },
+      {
+        "word": "Rabbit",
+        "emoji": "🐰",
+        "model_label": "wood rabbit, cottontail / Angora rabbit",
+        "translations": {
+          "es": "Conejo",
+          "fr": "Lapin",
+          "de": "Kaninchen",
+          "it": "Coniglio",
+          "pt": "Coelho",
+          "ko": "토끼",
+          "zh": "兔子",
+          "ar": "أرنب",
+          "fa": "خرگوش",
+          "ja": "うさぎ",
+          "tr": "Tavşan",
+          "pl": "Królik"
+        }
+      },
+      {
+        "word": "Turtle",
+        "emoji": "🐢",
+        "model_label": "box turtle, box tortoise / mud turtle / terrapin",
+        "translations": {
+          "es": "Tortuga",
+          "fr": "Tortue",
+          "de": "Schildkröte",
+          "it": "Tartaruga",
+          "pt": "Tartaruga",
+          "ko": "거북이",
+          "zh": "乌龟",
+          "ar": "سلحفاة",
+          "fa": "لاک‌پشت",
+          "ja": "亀",
+          "tr": "Kaplumbağa",
+          "pl": "Żółw"
+        }
+      },
+      {
+        "word": "Lizard",
+        "emoji": "🦎",
+        "model_label": "green lizard / banded gecko / iguana",
+        "translations": {
+          "es": "Lagarto",
+          "fr": "Lézard",
+          "de": "Eidechse",
+          "it": "Lucertola",
+          "pt": "Lagarto",
+          "ko": "도마뱀",
+          "zh": "蜥蜴",
+          "ar": "سحلية",
+          "fa": "مارمولک",
+          "ja": "トカゲ",
+          "tr": "Kertenkele",
+          "pl": "Jaszczurka"
+        }
+      },
+      {
+        "word": "Snake",
+        "emoji": "🐍",
+        "model_label": "king snake / garter snake / vine snake",
+        "translations": {
+          "es": "Serpiente",
+          "fr": "Serpent",
+          "de": "Schlange",
+          "it": "Serpente",
+          "pt": "Cobra",
+          "ko": "뱀",
+          "zh": "蛇",
+          "ar": "ثعبان",
+          "fa": "مار",
+          "ja": "ヘビ",
+          "tr": "Yılan",
+          "pl": "Wąż"
+        }
+      },
+      {
+        "word": "Parrot",
+        "emoji": "🦜",
+        "model_label": "macaw / lorikeet / African grey / cockatoo",
+        "translations": {
+          "es": "Loro",
+          "fr": "Perroquet",
+          "de": "Papagei",
+          "it": "Pappagallo",
+          "pt": "Papagaio",
+          "ko": "앵무새",
+          "zh": "鹦鹉",
+          "ar": "ببغاء",
+          "fa": "طوطی",
+          "ja": "インコ",
+          "tr": "Papağan",
+          "pl": "Papuga"
+        }
+      }
+    ],
+    "street": [
+      {
+        "word": "Car",
+        "emoji": "🚗",
+        "model_label": "passenger car, coach, carriage",
+        "translations": {
+          "es": "Coche",
+          "fr": "Voiture",
+          "de": "Auto",
+          "it": "Auto",
+          "pt": "Carro",
+          "ko": "자동차",
+          "zh": "汽车",
+          "ar": "سيارة",
+          "fa": "خودرو",
+          "ja": "車",
+          "tr": "Araba",
+          "pl": "Samochód"
+        }
+      },
+      {
+        "word": "Taxi",
+        "emoji": "🚕",
+        "model_label": "cab, taxi, taxicab",
+        "translations": {
+          "es": "Taxi",
+          "fr": "Taxi",
+          "de": "Taxi",
+          "it": "Taxi",
+          "pt": "Táxi",
+          "ko": "택시",
+          "zh": "出租车",
+          "ar": "تاكسي",
+          "fa": "تاکسی",
+          "ja": "タクシー",
+          "tr": "Taksi",
+          "pl": "Taksówka"
+        }
+      },
+      {
+        "word": "Trolleybus",
+        "emoji": "🚎",
+        "model_label": "trolleybus, trolley coach, trackless trolley",
+        "translations": {
+          "es": "Trolebús",
+          "fr": "Trolleybus",
+          "de": "Oberleitungsbus",
+          "it": "Filobus",
+          "pt": "Trólebus",
+          "ko": "트롤리버스",
+          "zh": "无轨电车",
+          "ar": "ترولي باص",
+          "fa": "اتوبوس برقی",
+          "ja": "トロリーバス",
+          "tr": "Troleybüs",
+          "pl": "Trolejbus"
+        }
+      },
+      {
+        "word": "Semi truck",
+        "emoji": "🚛",
+        "model_label": "trailer truck, tractor trailer, semi",
+        "translations": {
+          "es": "Camión articulado",
+          "fr": "Camion semi-remorque",
+          "de": "Sattelschlepper",
+          "it": "Autoarticolato",
+          "pt": "Caminhão articulado",
+          "ko": "트랙터 트레일러",
+          "zh": "半挂卡车",
+          "ar": "شاحنة نصف مقطورة",
+          "fa": "کامیون تریلر",
+          "ja": "トレーラー",
+          "tr": "TIR",
+          "pl": "Ciągnik siodłowy z naczepą"
+        }
+      },
+      {
+        "word": "Traffic light",
+        "emoji": "🚦",
+        "model_label": "traffic light, traffic signal, stoplight",
+        "translations": {
+          "es": "Semáforo",
+          "fr": "Feu tricolore",
+          "de": "Ampel",
+          "it": "Semaforo",
+          "pt": "Semáforo",
+          "ko": "신호등",
+          "zh": "红绿灯",
+          "ar": "إشارة مرورية",
+          "fa": "چراغ راهنمایی",
+          "ja": "信号機",
+          "tr": "Trafik ışığı",
+          "pl": "Sygnalizator świetlny"
+        }
+      },
+      {
+        "word": "Car wheel",
+        "emoji": "🛞",
+        "model_label": "car wheel",
+        "translations": {
+          "es": "Rueda de coche",
+          "fr": "Roue de voiture",
+          "de": "Autoreifen",
+          "it": "Ruota dell'auto",
+          "pt": "Roda do carro",
+          "ko": "자동차 바퀴",
+          "zh": "车轮",
+          "ar": "عجلة سيارة",
+          "fa": "چرخ ماشین",
+          "ja": "車輪",
+          "tr": "Araba tekerleği",
+          "pl": "Koło samochodowe"
+        }
+      },
+      {
+        "word": "Motor scooter",
+        "emoji": "🛵",
+        "model_label": "motor scooter, scooter",
+        "translations": {
+          "es": "Scooter",
+          "fr": "Scooter",
+          "de": "Motorroller",
+          "it": "Scooter",
+          "pt": "Scooter",
+          "ko": "스쿠터",
+          "zh": "踏板车",
+          "ar": "سكوتر",
+          "fa": "اسکوتر",
+          "ja": "スクーター",
+          "tr": "Skuter",
+          "pl": "Skuter"
+        }
+      }
+    ],
+    "office": [
+      {
+        "word": "Watch",
+        "emoji": "⌚️",
+        "model_label": "digital watch",
+        "translations": {
+          "es": "Reloj",
+          "fr": "Montre",
+          "de": "Armbanduhr",
+          "it": "Orologio",
+          "pt": "Relógio",
+          "ko": "시계",
+          "zh": "手表",
+          "ar": "ساعة يد",
+          "fa": "ساعت مچی",
+          "ja": "腕時計",
+          "tr": "Kol saati",
+          "pl": "Zegarek"
+        }
+      },
+      {
+        "word": "Laptop",
+        "emoji": "💻",
+        "model_label": "laptop, laptop computer",
+        "translations": {
+          "es": "Portátil",
+          "fr": "Ordinateur portable",
+          "de": "Laptop",
+          "it": "Portatile",
+          "pt": "Notebook",
+          "ko": "노트북",
+          "zh": "笔记本电脑",
+          "ar": "لابتوب",
+          "fa": "لپ‌تاپ",
+          "ja": "ノートパソコン",
+          "tr": "Dizüstü bilgisayar",
+          "pl": "Laptop"
+        }
+      },
+      {
+        "word": "Keyboard",
+        "emoji": "⌨️",
+        "model_label": "computer keyboard, keypad",
+        "translations": {
+          "es": "Teclado",
+          "fr": "Clavier",
+          "de": "Tastatur",
+          "it": "Tastiera",
+          "pt": "Teclado",
+          "ko": "키보드",
+          "zh": "键盘",
+          "ar": "لوحة مفاتيح",
+          "fa": "صفحه‌کلید",
+          "ja": "キーボード",
+          "tr": "Klavye",
+          "pl": "Klawiatura"
+        }
+      },
+      {
+        "word": "Desktop computer",
+        "emoji": "🖥️",
+        "model_label": "desktop computer",
+        "translations": {
+          "es": "Ordenador de sobremesa",
+          "fr": "Ordinateur de bureau",
+          "de": "Desktop-Computer",
+          "it": "Computer desktop",
+          "pt": "Computador de mesa",
+          "ko": "데스크톱 컴퓨터",
+          "zh": "台式电脑",
+          "ar": "حاسوب مكتبي",
+          "fa": "رایانه رومیزی",
+          "ja": "デスクトップパソコン",
+          "tr": "Masaüstü bilgisayar",
+          "pl": "Komputer stacjonarny"
+        }
+      },
+      {
+        "word": "Printer",
+        "emoji": "🖨️",
+        "model_label": "printer",
+        "translations": {
+          "es": "Impresora",
+          "fr": "Imprimante",
+          "de": "Drucker",
+          "it": "Stampante",
+          "pt": "Impressora",
+          "ko": "프린터",
+          "zh": "打印机",
+          "ar": "طابعة",
+          "fa": "چاپگر",
+          "ja": "プリンター",
+          "tr": "Yazıcı",
+          "pl": "Drukarka"
+        }
+      },
+      {
+        "word": "Envelope",
+        "emoji": "✉️",
+        "model_label": "envelope",
+        "translations": {
+          "es": "Sobre",
+          "fr": "Enveloppe",
+          "de": "Umschlag",
+          "it": "Busta",
+          "pt": "Envelope",
+          "ko": "봉투",
+          "zh": "信封",
+          "ar": "ظرف بريد",
+          "fa": "پاکت نامه",
+          "ja": "封筒",
+          "tr": "Zarf",
+          "pl": "Koperta"
+        }
+      },
+      {
+        "word": "Computer mouse",
+        "emoji": "🖱️",
+        "model_label": "mouse, computer mouse",
+        "translations": {
+          "es": "Ratón",
+          "fr": "Souris",
+          "de": "Computermaus",
+          "it": "Mouse",
+          "pt": "Mouse",
+          "ko": "마우스",
+          "zh": "鼠标",
+          "ar": "فأرة كمبيوتر",
+          "fa": "موشواره",
+          "ja": "マウス",
+          "tr": "Fare",
+          "pl": "Mysz"
+        }
+      },
+      {
+        "word": "File cabinet",
+        "emoji": "🗄️",
+        "model_label": "file, file cabinet, filing cabinet",
+        "translations": {
+          "es": "Archivador",
+          "fr": "Meuble à dossiers",
+          "de": "Aktenschrank",
+          "it": "Schedario",
+          "pt": "Armário de arquivos",
+          "ko": "서류 캐비닛",
+          "zh": "文件柜",
+          "ar": "خزانة ملفات",
+          "fa": "کمد فایل",
+          "ja": "書類キャビネット",
+          "tr": "Dosya dolabı",
+          "pl": "Szafa na akta"
+        }
+      },
+      {
+        "word": "Trash can",
+        "emoji": "🗑️",
+        "model_label": "ashcan, trash can, garbage can, wastebin",
+        "translations": {
+          "es": "Papelera",
+          "fr": "Poubelle",
+          "de": "Mülleimer",
+          "it": "Cestino",
+          "pt": "Lixeira",
+          "ko": "쓰레기통",
+          "zh": "垃圾桶",
+          "ar": "سلة مهملات",
+          "fa": "سطل زباله",
+          "ja": "ゴミ箱",
+          "tr": "Çöp kutusu",
+          "pl": "Kosz na śmieci"
+        }
+      }
+    ],
+    "garage": [
+      {
+        "word": "Soccer ball",
+        "emoji": "⚽️",
+        "model_label": "soccer ball",
+        "translations": {
+          "es": "Balón de fútbol",
+          "fr": "Ballon de football",
+          "de": "Fußball",
+          "it": "Pallone da calcio",
+          "pt": "Bola de futebol",
+          "ko": "축구공",
+          "zh": "足球",
+          "ar": "كرة قدم",
+          "fa": "توپ فوتبال",
+          "ja": "サッカーボール",
+          "tr": "Futbol topu",
+          "pl": "Piłka nożna"
+        }
+      },
+      {
+        "word": "Basketball",
+        "emoji": "🏀",
+        "model_label": "basketball",
+        "translations": {
+          "es": "Balón de baloncesto",
+          "fr": "Ballon de basket",
+          "de": "Basketball",
+          "it": "Pallone da basket",
+          "pt": "Bola de basquete",
+          "ko": "농구공",
+          "zh": "篮球",
+          "ar": "كرة سلة",
+          "fa": "توپ بسکتبال",
+          "ja": "バスケットボール",
+          "tr": "Basketbol topu",
+          "pl": "Piłka do koszykówki"
+        }
+      },
+      {
+        "word": "Screwdriver",
+        "emoji": "🪛",
+        "model_label": "screwdriver",
+        "translations": {
+          "es": "Destornillador",
+          "fr": "Tournevis",
+          "de": "Schraubenzieher",
+          "it": "Cacciavite",
+          "pt": "Chave de fenda",
+          "ko": "드라이버",
+          "zh": "螺丝刀",
+          "ar": "مفك براغي",
+          "fa": "پیچ‌گوشتی",
+          "ja": "ドライバー",
+          "tr": "Tornavida",
+          "pl": "Śrubokręt"
+        }
+      },
+      {
+        "word": "Hammer",
+        "emoji": "🔨",
+        "model_label": "hammer",
+        "translations": {
+          "es": "Martillo",
+          "fr": "Marteau",
+          "de": "Hammer",
+          "it": "Martello",
+          "pt": "Martelo",
+          "ko": "망치",
+          "zh": "锤子",
+          "ar": "مطرقة",
+          "fa": "چکش",
+          "ja": "ハンマー",
+          "tr": "Çekiç",
+          "pl": "Młotek"
+        }
+      },
+      {
+        "word": "Car wheel",
+        "emoji": "🛞",
+        "model_label": "car wheel",
+        "translations": {
+          "es": "Rueda de coche",
+          "fr": "Roue de voiture",
+          "de": "Autoreifen",
+          "it": "Ruota dell'auto",
+          "pt": "Roda do carro",
+          "ko": "자동차 바퀴",
+          "zh": "车轮",
+          "ar": "عجلة سيارة",
+          "fa": "چرخ ماشین",
+          "ja": "車輪",
+          "tr": "Araba tekerleği",
+          "pl": "Koło samochodowe"
+        }
+      }
+    ],
+    "zoo": [
+      {
+        "word": "Lion",
+        "emoji": "🦁",
+        "model_label": "lion, Panthera leo",
+        "translations": {
+          "es": "León",
+          "fr": "Lion",
+          "de": "Löwe",
+          "it": "Leone",
+          "pt": "Leão",
+          "ko": "사자",
+          "zh": "狮子",
+          "ar": "أسد",
+          "fa": "شیر",
+          "ja": "ライオン",
+          "tr": "Aslan",
+          "pl": "Lew"
+        }
+      },
+      {
+        "word": "Bear",
+        "emoji": "🐻",
+        "model_label": "brown bear / black bear / polar bear",
+        "translations": {
+          "es": "Oso",
+          "fr": "Ours",
+          "de": "Bär",
+          "it": "Orso",
+          "pt": "Urso",
+          "ko": "곰",
+          "zh": "熊",
+          "ar": "دب",
+          "fa": "خرس",
+          "ja": "クマ",
+          "tr": "Ayı",
+          "pl": "Niedźwiedź"
+        }
+      },
+      {
+        "word": "Koala",
+        "emoji": "🐨",
+        "model_label": "koala, koala bear",
+        "translations": {
+          "es": "Koala",
+          "fr": "Koala",
+          "de": "Koala",
+          "it": "Koala",
+          "pt": "Coala",
+          "ko": "코알라",
+          "zh": "考拉",
+          "ar": "كوالا",
+          "fa": "کوالا",
+          "ja": "コアラ",
+          "tr": "Koala",
+          "pl": "Koala"
+        }
+      },
+      {
+        "word": "Monkey",
+        "emoji": "🐒",
+        "model_label": "capuchin / squirrel monkey / spider monkey",
+        "translations": {
+          "es": "Mono",
+          "fr": "Singe",
+          "de": "Affe",
+          "it": "Scimmia",
+          "pt": "Macaco",
+          "ko": "원숭이",
+          "zh": "猴子",
+          "ar": "قرد",
+          "fa": "میمون",
+          "ja": "サル",
+          "tr": "Maymun",
+          "pl": "Małpa"
+        }
+      },
+      {
+        "word": "Tiger",
+        "emoji": "🐅",
+        "model_label": "tiger, Panthera tigris",
+        "translations": {
+          "es": "Tigre",
+          "fr": "Tigre",
+          "de": "Tiger",
+          "it": "Tigre",
+          "pt": "Tigre",
+          "ko": "호랑이",
+          "zh": "老虎",
+          "ar": "نمر",
+          "fa": "ببر",
+          "ja": "トラ",
+          "tr": "Kaplan",
+          "pl": "Tygrys"
+        }
+      },
+      {
+        "word": "Leopard",
+        "emoji": "🐆",
+        "model_label": "leopard, Panthera pardus",
+        "translations": {
+          "es": "Leopardo",
+          "fr": "Léopard",
+          "de": "Leopard",
+          "it": "Leopardo",
+          "pt": "Leopardo",
+          "ko": "표범",
+          "zh": "豹",
+          "ar": "فهد",
+          "fa": "پلنگ",
+          "ja": "ヒョウ",
+          "tr": "Leopar",
+          "pl": "Lampart"
+        }
+      },
+      {
+        "word": "Gorilla",
+        "emoji": "🦍",
+        "model_label": "gorilla, Gorilla gorilla",
+        "translations": {
+          "es": "Gorila",
+          "fr": "Gorille",
+          "de": "Gorilla",
+          "it": "Gorilla",
+          "pt": "Gorila",
+          "ko": "고릴라",
+          "zh": "大猩猩",
+          "ar": "غوريلا",
+          "fa": "گوریل",
+          "ja": "ゴリラ",
+          "tr": "Goril",
+          "pl": "Goryl"
+        }
+      },
+      {
+        "word": "Elephant",
+        "emoji": "🐘",
+        "model_label": "African elephant / Indian elephant",
+        "translations": {
+          "es": "Elefante",
+          "fr": "Éléphant",
+          "de": "Elefant",
+          "it": "Elefante",
+          "pt": "Elefante",
+          "ko": "코끼리",
+          "zh": "大象",
+          "ar": "فيل",
+          "fa": "فیل",
+          "ja": "ゾウ",
+          "tr": "Fil",
+          "pl": "Słoń"
+        }
+      },
+      {
+        "word": "Crocodile/alligator",
+        "emoji": "🐊",
+        "model_label": "African crocodile / American alligator",
+        "translations": {
+          "es": "Cocodrilo/Aligátor",
+          "fr": "Crocodile/Alligator",
+          "de": "Krokodil/Alligator",
+          "it": "Coccodrillo/Alligatore",
+          "pt": "Crocodilo/Jacaré",
+          "ko": "악어/앨리게이터",
+          "zh": "鳄鱼/短吻鳄",
+          "ar": "تمساح/أليغيتور",
+          "fa": "تمساح/آلیگاتور",
+          "ja": "ワニ（クロコダイル／アリゲーター）",
+          "tr": "Timsah/Aligatör",
+          "pl": "Krokodyl/Aligator"
+        }
+      },
+      {
+        "word": "Zebra",
+        "emoji": "🦓",
+        "model_label": "zebra",
+        "translations": {
+          "es": "Cebra",
+          "fr": "Zèbre",
+          "de": "Zebra",
+          "it": "Zebra",
+          "pt": "Zebra",
+          "ko": "얼룩말",
+          "zh": "斑马",
+          "ar": "حمار وحشي",
+          "fa": "گورخر",
+          "ja": "シマウマ",
+          "tr": "Zebra",
+          "pl": "Zebra"
+        }
+      }
+    ],
+    "clothing": [
+      {
+        "word": "Gloves (mittens)",
+        "emoji": "🧤",
+        "model_label": "mitten",
+        "translations": {
+          "es": "Guantes",
+          "fr": "Gants",
+          "de": "Handschuhe",
+          "it": "Guanti",
+          "pt": "Luvas",
+          "ko": "장갑",
+          "zh": "手套",
+          "ar": "قفازات",
+          "fa": "دستکش",
+          "ja": "手袋",
+          "tr": "Eldiven",
+          "pl": "Rękawiczki"
+        }
+      },
+      {
+        "word": "Jeans",
+        "emoji": "👖",
+        "model_label": "jean, blue jean, denim",
+        "translations": {
+          "es": "Vaqueros",
+          "fr": "Jean",
+          "de": "Jeans",
+          "it": "Jeans",
+          "pt": "Calça jeans",
+          "ko": "청바지",
+          "zh": "牛仔裤",
+          "ar": "جينز",
+          "fa": "شلوار جین",
+          "ja": "ジーンズ",
+          "tr": "Kot pantolon",
+          "pl": "Dżinsy"
+        }
+      },
+      {
+        "word": "Flip-flops / sandals",
+        "emoji": "🩴",
+        "model_label": "sandal",
+        "translations": {
+          "es": "Chanclas / sandalias",
+          "fr": "Tongs / sandales",
+          "de": "Flip-Flops / Sandalen",
+          "it": "Infradito / sandali",
+          "pt": "Chinelos / sandálias",
+          "ko": "슬리퍼 / 샌들",
+          "zh": "人字拖 / 凉鞋",
+          "ar": "شباشب / صنادل",
+          "fa": "دمپایی لاانگشتی / صندل",
+          "ja": "ビーチサンダル / サンダル",
+          "tr": "Parmak arası terlik / sandalet",
+          "pl": "Klapki / sandały"
+        }
+      },
+      {
+        "word": "Loafers",
+        "emoji": "👞",
+        "model_label": "Loafer",
+        "translations": {
+          "es": "Mocasines",
+          "fr": "Mocassins",
+          "de": "Loafer",
+          "it": "Mocassini",
+          "pt": "Mocassim",
+          "ko": "로퍼",
+          "zh": "乐福鞋",
+          "ar": "حذاء لوفر",
+          "fa": "کفش لوفر",
+          "ja": "ローファー",
+          "tr": "Loafer",
+          "pl": "Mokasyny"
+        }
+      },
+      {
+        "word": "Running shoe",
+        "emoji": "👟",
+        "model_label": "running shoe",
+        "translations": {
+          "es": "Zapatilla de correr",
+          "fr": "Chaussure de course",
+          "de": "Laufschuh",
+          "it": "Scarpa da corsa",
+          "pt": "Tênis de corrida",
+          "ko": "러닝화",
+          "zh": "跑鞋",
+          "ar": "حذاء ركض",
+          "fa": "کفش دویدن",
+          "ja": "ランニングシューズ",
+          "tr": "Koşu ayakkabısı",
+          "pl": "Buty do biegania"
+        }
+      },
+      {
+        "word": "Backpack",
+        "emoji": "🎒",
+        "model_label": "backpack, rucksack, knapsack",
+        "translations": {
+          "es": "Mochila",
+          "fr": "Sac à dos",
+          "de": "Rucksack",
+          "it": "Zaino",
+          "pt": "Mochila",
+          "ko": "배낭",
+          "zh": "背包",
+          "ar": "حقيبة ظهر",
+          "fa": "کوله‌پشتی",
+          "ja": "リュックサック",
+          "tr": "Sırt çantası",
+          "pl": "Plecak"
+        }
+      },
+      {
+        "word": "Sunglasses",
+        "emoji": "🕶️",
+        "model_label": "sunglasses, dark glasses, shades",
+        "translations": {
+          "es": "Gafas de sol",
+          "fr": "Lunettes de soleil",
+          "de": "Sonnenbrille",
+          "it": "Occhiali da sole",
+          "pt": "Óculos de sol",
+          "ko": "선글라스",
+          "zh": "太阳镜",
+          "ar": "نظارات شمسية",
+          "fa": "عینک آفتابی",
+          "ja": "サングラス",
+          "tr": "Güneş gözlüğü",
+          "pl": "Okulary przeciwsłoneczne"
+        }
+      }
+    ]
+  }
+}
