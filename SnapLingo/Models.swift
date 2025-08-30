@@ -59,63 +59,7 @@ final class UserProgress {
     }
 }
 
-struct GameEnvironment {
-    let name: String
-    let icon: String
-    let items: [String]
-    let emojis: [String: String]
-    
-    static let home = GameEnvironment(
-        name: "Home",
-        icon: "house.fill",
-        items: [
-            "Spoon", "Fork", "Spatula", "Whisk", "Tongs", "Cutting board", "Saucepan", "Kettle", 
-            "Mug", "Plate", "Sponge", "Paper towel roll", "Trash can", "Vacuum cleaner", 
-            "Clothes iron", "Clothes hanger", "Toothbrush", "Toothpaste tube", "Toilet paper roll", 
-            "Shower head", "Hair dryer", "Comb", "Hairbrush", "TV", "Remote control", "Headphones", 
-            "Pen", "Pencil", "Scissors", "Sunglasses", "Umbrella", "Shoes", "Plant", "Clock", "Sofa"
-        ],
-        emojis: [
-            "Spoon": "🥄",
-            "Fork": "🍴",
-            "Spatula": "🥄",
-            "Whisk": "🥄",
-            "Tongs": "🥄",
-            "Cutting board": "🪵",
-            "Saucepan": "🍳",
-            "Kettle": "🫖",
-            "Mug": "☕️",
-            "Plate": "🍽️",
-            "Sponge": "🧽",
-            "Paper towel roll": "🧻",
-            "Trash can": "🗑️",
-            "Vacuum cleaner": "🧹",
-            "Clothes iron": "♨️",
-            "Clothes hanger": "👕",
-            "Toothbrush": "🪥",
-            "Toothpaste tube": "🦷",
-            "Toilet paper roll": "🧻",
-            "Shower head": "🚿",
-            "Hair dryer": "💨",
-            "Comb": "🪮",
-            "Hairbrush": "🪮",
-            "TV": "📺",
-            "Remote control": "📱",
-            "Headphones": "🎧",
-            "Pen": "✏️",
-            "Pencil": "✏️",
-            "Scissors": "✂️",
-            "Sunglasses": "🕶️",
-            "Umbrella": "☂️",
-            "Shoes": "👟",
-            "Plant": "🪴",
-            "Clock": "🕐",
-            "Sofa": "🛋️"
-        ]
-    )
-    
-    static let environments = [home]
-}
+// GameEnvironment struct removed in favor of catalog.json (CatalogStore)
 
 // MARK: - Catalog models for catalog.json
 

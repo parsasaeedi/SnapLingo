@@ -20,9 +20,10 @@ struct CompilationTest {
         let progress = UserProgress()
         print("✅ UserProgress created")
         
-        // Test GameEnvironment
-        let homeEnv = GameEnvironment.home
-        print("✅ GameEnvironment created: \(homeEnv.name)")
+        // Test CatalogStore environments
+        let catalog = CatalogStore.shared.catalog
+        let envKeys = Array(catalog.environments.keys)
+        print("✅ Catalog loaded: environments=\(envKeys.count)")
         
         // Test GameManager
         let gameManager = GameManager()
@@ -37,20 +38,16 @@ struct CompilationTest {
     
     // Test that our extensions work
     static func testExtensions() {
-        let session = GameSession(environment: "Home")
-        let homeEnv = GameEnvironment.home
+        let session = GameSession(environment: "home")
+        let envItems = CatalogStore.shared.catalog.environments["home"] ?? []
         
         // Test GameSession extensions
         let duration = session.duration
         let foundCount = session.foundItemsCount
         let accuracy = session.accuracy
         
-        // Test GameEnvironment extensions
-        let randomItems = homeEnv.randomItems
-        let emoji = homeEnv.emoji(for: "Spoon")
-        
         print("✅ Extensions work: duration=\(duration), foundCount=\(foundCount), accuracy=\(accuracy)")
-        print("✅ Environment extensions: randomItems=\(randomItems.count), emoji=\(emoji)")
+        print("✅ Catalog sample: home items=\(envItems.count)")
     }
 }
 

@@ -6,8 +6,8 @@ import SwiftData
 struct ModelTests {
     static func testModels() {
         // Test GameSession creation
-        let session = GameSession(environment: "Home")
-        assert(session.environment == "Home")
+        let session = GameSession(environment: "home")
+        assert(session.environment == "home")
         assert(session.score == 0)
         assert(session.items.isEmpty)
         
@@ -23,12 +23,9 @@ struct ModelTests {
         assert(progress.totalSessions == 0)
         assert(progress.currentStreak == 0)
         
-        // Test GameEnvironment
-        let homeEnv = GameEnvironment.home
-        assert(homeEnv.name == "Home")
-        assert(homeEnv.icon == "house.fill")
-        assert(!homeEnv.items.isEmpty)
-        assert(homeEnv.emojis["Spoon"] == "🥄")
+        // Test CatalogStore
+        let homeItems = CatalogStore.shared.catalog.environments["home"] ?? []
+        assert(!homeItems.isEmpty)
         
         print("✅ All model tests passed!")
     }

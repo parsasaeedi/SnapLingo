@@ -4,6 +4,7 @@ import SwiftData
 struct HomeMenuView: View {
     @Environment(\.modelContext) private var modelContext: ModelContext
     @StateObject private var gameManager = GameManager()
+    @ObservedObject private var catalogStore = CatalogStore.shared
     @State private var showGameSession = false
     @State private var selectedEnvironment = ""
     @State private var showSetupView = false
@@ -13,19 +14,41 @@ struct HomeMenuView: View {
         GridItem(.flexible())
     ]
     
-    // Combined environments including coming soon ones
+    // Environments from catalog.json
     var allEnvironments: [EnvironmentItem] {
-        let availableEnvironments = GameEnvironment.environments.map { env in
-            EnvironmentItem(environment: env, isComingSoon: false)
-        }
-        
-        let comingSoonEnvironments = [
-            EnvironmentItem(name: "Park", icon: "tree.fill", color: .green, isComingSoon: true),
-            EnvironmentItem(name: "Downtown", icon: "building.2.fill", color: .orange, isComingSoon: true),
-            EnvironmentItem(name: "Kitchen", icon: "fork.knife", color: .red, isComingSoon: true)
+        let iconMap: [String: String] = [
+            "home": "house.fill",
+            "food": "fork.knife",
+            "pet_store": "pawprint.fill",
+            "street": "signpost.right.fill",
+            "garage": "wrench.fill",
+            "office": "desktopcomputer",
+            "clothing": "tshirt.fill",
+            "zoo": "tortoise.fill"
         ]
-        
-        return availableEnvironments + comingSoonEnvironments
+        let colorMap: [String: Color] = [
+            "home": .blue,
+            "food": .red,
+            "pet_store": .orange,
+            "street": .green,
+            "garage": .gray,
+            "office": .purple,
+            "clothing": .pink,
+            "zoo": .teal
+        ]
+
+        let envs = catalogStore.catalog.environments
+        return envs.keys.sorted().map { key in
+            let items = envs[key] ?? []
+            return EnvironmentItem(
+                key: key,
+                name: key.replacingOccurrences(of: "_", with: " ").capitalized,
+                icon: iconMap[key] ?? "square.grid.2x2",
+                color: colorMap[key] ?? .blue,
+                isComingSoon: false,
+                itemCount: items.count
+            )
+        }
     }
     
     var body: some View {
@@ -79,7 +102,7 @@ struct HomeMenuView: View {
                                     environmentItem: item,
                                     onTap: {
                                         if !item.isComingSoon {
-                                            selectedEnvironment = item.name
+                                            selectedEnvironment = item.key
                                             showGameSession = true
                                         }
                                     }
@@ -105,26 +128,20 @@ struct HomeMenuView: View {
 
 struct EnvironmentItem {
     let id = UUID()
+    let key: String
     let name: String
     let icon: String
     let color: Color
     let isComingSoon: Bool
-    let environment: GameEnvironment?
+    let itemCount: Int
     
-    init(environment: GameEnvironment, isComingSoon: Bool) {
-        self.name = environment.name
-        self.icon = environment.icon
-        self.color = .blue
-        self.isComingSoon = isComingSoon
-        self.environment = environment
-    }
-    
-    init(name: String, icon: String, color: Color, isComingSoon: Bool) {
+    init(key: String, name: String, icon: String, color: Color, isComingSoon: Bool, itemCount: Int) {
+        self.key = key
         self.name = name
         self.icon = icon
         self.color = color
         self.isComingSoon = isComingSoon
-        self.environment = nil
+        self.itemCount = itemCount
     }
 }
 
@@ -154,15 +171,9 @@ struct EnvironmentCard: View {
                         .fontWeight(.semibold)
                         .foregroundColor(environmentItem.isComingSoon ? .secondary : .primary)
                     
-                    if let environment = environmentItem.environment {
-                        Text("\(environment.items.count) items")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    } else {
-                        Text("Coming Soon")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
+                    Text(environmentItem.isComingSoon ? "Coming Soon" : "\(environmentItem.itemCount) items")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
             }
             .frame(maxWidth: .infinity, minHeight: 120) // Fixed minimum height for consistency

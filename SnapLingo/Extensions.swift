@@ -40,16 +40,7 @@ extension UserProgress {
     }
 }
 
-// MARK: - GameEnvironment Extensions
-extension GameEnvironment {
-    var randomItems: [String] {
-        Array(items.shuffled().prefix(12))
-    }
-    
-    func emoji(for item: String) -> String {
-        emojis[item] ?? "❓"
-    }
-}
+// GameEnvironment removed; environment helpers derived from CatalogStore when needed
 
 // MARK: - Color Extensions
 extension Color {

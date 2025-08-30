@@ -7,14 +7,12 @@ import Combine
 struct TestBuild {
     static func testCompilation() {
         // Test that our models can be instantiated
-        let session = GameSession(environment: "Home")
+        let session = GameSession(environment: "home")
         let item = GameItem(name: "Test", emoji: "🧪", sessionId: session.id)
         let progress = UserProgress()
         
-        // Test that our environment works
-        let homeEnv = GameEnvironment.home
-        let randomItems = homeEnv.randomItems
-        let emoji = homeEnv.emoji(for: "Spoon")
+        // Test that our catalog works
+        let homeItems = CatalogStore.shared.catalog.environments["home"] ?? []
         
         // Test that GameManager can be created
         let gameManager = GameManager()
@@ -25,9 +23,7 @@ struct TestBuild {
         print("✅ All components compile successfully!")
         print("Session: \(session.environment)")
         print("Item: \(item.name)")
-        print("Home environment has \(homeEnv.items.count) items")
-        print("Random items: \(randomItems.count)")
-        print("Spoon emoji: \(emoji)")
+        print("Home environment has \(homeItems.count) items")
     }
 }
 

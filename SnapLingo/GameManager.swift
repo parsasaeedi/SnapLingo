@@ -44,16 +44,20 @@ class GameManager: ObservableObject {
     }
     
     func startSession(environment: String, modelContext: ModelContext) {
-        let session = GameSession(environment: environment)
-        let env = GameEnvironment.environments.first { $0.name == environment } ?? GameEnvironment.home
-        
-        // Select 12 random items for the session
-        let shuffledItems = env.items.shuffled()
-        let selectedItems = Array(shuffledItems.prefix(12))
-        
-        for itemName in selectedItems {
-            let emoji = env.emojis[itemName] ?? "❓"
-            let gameItem = GameItem(name: itemName, emoji: emoji, sessionId: session.id)
+        let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
+        let session = GameSession(environment: key)
+
+        // Ensure catalog is loaded and try again if empty on first access
+        var itemsForEnv = CatalogStore.shared.catalog.environments[key] ?? []
+        if itemsForEnv.isEmpty {
+            CatalogStore.shared.load()
+            itemsForEnv = CatalogStore.shared.catalog.environments[key] ?? []
+        }
+
+        // Build prompts from catalog items
+        let selected = Array(itemsForEnv.shuffled().prefix(12))
+        for item in selected {
+            let gameItem = GameItem(name: item.word, emoji: item.emoji, sessionId: session.id)
             session.items.append(gameItem)
         }
         
