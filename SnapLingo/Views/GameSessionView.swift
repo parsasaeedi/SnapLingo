@@ -109,8 +109,9 @@ struct GameSessionView: View {
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
+//                        .fill(.ultraThinMaterial)
                 )
+                .glassEffect()
                 
                 Spacer()
                 
@@ -126,9 +127,10 @@ struct GameSessionView: View {
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
+//                        .fill(.ultraThinMaterial)
                 )
                 .frame(width: 80) // Fixed width for consistent positioning
+                .glassEffect()
                 
                 Spacer()
                 
@@ -143,8 +145,9 @@ struct GameSessionView: View {
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
+//                        .fill(.ultraThinMaterial)
                 )
+                .glassEffect()
             }
             
             // Search Target (bigger prompt)
@@ -158,8 +161,9 @@ struct GameSessionView: View {
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 25)
-                    .fill(.ultraThinMaterial)
+//                    .fill(.ultraThinMaterial)
             )
+            .glassEffect()
         }
     }
     
@@ -190,13 +194,12 @@ struct GameSessionView: View {
                 }) {
                     Image(systemName: "xmark")
                         .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 50)
-                        .background(
-                            Circle()
-                                .fill(.ultraThinMaterial)
-                        )
+                        .foregroundStyle(.primary)
                 }
+                .frame(width: 50, height: 50)
+                .contentShape(Circle())
+                .buttonStyle(.plain)
+                .glassEffect(in: .circle)
                 .padding(.leading, 40)
                 
                 Spacer()
@@ -215,8 +218,10 @@ struct GameSessionView: View {
                         Circle()
                             .fill(.white)
                             .frame(width: 75, height: 75)
+
                     }
                 }
+                .glassEffect(in: .circle)
                 
                 Spacer()
                 
@@ -226,13 +231,12 @@ struct GameSessionView: View {
                 }) {
                     Image(systemName: "arrow.right")
                         .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 50)
-                        .background(
-                            Circle()
-                                .fill(.ultraThinMaterial)
-                        )
+                        .foregroundStyle(.primary)
                 }
+                .frame(width: 50, height: 50)
+                .contentShape(Circle())
+                .buttonStyle(.plain)
+                .glassEffect(in: .circle)
                 .padding(.trailing, 40)
             }
         }
