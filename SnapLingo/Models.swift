@@ -127,6 +127,6 @@ struct Item: Codable, Identifiable {
     var id: String { word + "_" + (emoji) }
     let word: String
     let emoji: String
-    let model_label: String
+    let model_label: [String]
     let translations: [String: String]
 }

@@ -4,7 +4,9 @@
       {
         "word": "Umbrella",
         "emoji": "☂️",
-        "model_label": "umbrella",
+        "model_label": [
+          "umbrella"
+        ],
         "translations": {
           "es": "Paraguas",
           "fr": "Parapluie",
@@ -23,7 +25,9 @@
       {
         "word": "Soccer ball",
         "emoji": "⚽️",
-        "model_label": "soccer ball",
+        "model_label": [
+          "soccer ball"
+        ],
         "translations": {
           "es": "Balón de fútbol",
           "fr": "Ballon de football",
@@ -42,7 +46,9 @@
       {
         "word": "Basketball",
         "emoji": "🏀",
-        "model_label": "basketball",
+        "model_label": [
+          "basketball"
+        ],
         "translations": {
           "es": "Balón de baloncesto",
           "fr": "Ballon de basket",
@@ -61,7 +67,10 @@
       {
         "word": "Television",
         "emoji": "📺",
-        "model_label": "television, television system",
+        "model_label": [
+          "television",
+          "television system"
+        ],
         "translations": {
           "es": "Televisor",
           "fr": "Téléviseur",
@@ -80,7 +89,9 @@
       {
         "word": "Broom",
         "emoji": "🧹",
-        "model_label": "broom",
+        "model_label": [
+          "broom"
+        ],
         "translations": {
           "es": "Escoba",
           "fr": "Balai",
@@ -99,7 +110,11 @@
       {
         "word": "Toilet paper",
         "emoji": "🧻",
-        "model_label": "toilet tissue, toilet paper, bathroom tissue",
+        "model_label": [
+          "toilet tissue",
+          "toilet paper",
+          "bathroom tissue"
+        ],
         "translations": {
           "es": "Papel higiénico",
           "fr": "Papier toilette",
@@ -118,7 +133,9 @@
       {
         "word": "Watch",
         "emoji": "⌚️",
-        "model_label": "digital watch",
+        "model_label": [
+          "digital watch"
+        ],
         "translations": {
           "es": "Reloj",
           "fr": "Montre",
@@ -137,7 +154,10 @@
       {
         "word": "Laptop",
         "emoji": "💻",
-        "model_label": "laptop, laptop computer",
+        "model_label": [
+          "laptop",
+          "laptop computer"
+        ],
         "translations": {
           "es": "Portátil",
           "fr": "Ordinateur portable",
@@ -156,7 +176,9 @@
       {
         "word": "Teapot",
         "emoji": "🫖",
-        "model_label": "teapot",
+        "model_label": [
+          "teapot"
+        ],
         "translations": {
           "es": "Tetera",
           "fr": "Théière",
@@ -175,7 +197,11 @@
       {
         "word": "Frying pan",
         "emoji": "🍳",
-        "model_label": "frying pan, frypan, skillet",
+        "model_label": [
+          "frying pan",
+          "frypan",
+          "skillet"
+        ],
         "translations": {
           "es": "Sartén",
           "fr": "Poêle",
@@ -194,7 +220,9 @@
       {
         "word": "Coffee mug",
         "emoji": "☕️",
-        "model_label": "coffee mug",
+        "model_label": [
+          "coffee mug"
+        ],
         "translations": {
           "es": "Taza",
           "fr": "Mug",
@@ -213,7 +241,9 @@
       {
         "word": "Soap dispenser (bottle)",
         "emoji": "🧴",
-        "model_label": "soap dispenser",
+        "model_label": [
+          "soap dispenser"
+        ],
         "translations": {
           "es": "Dispensador de jabón",
           "fr": "Distributeur de savon",
@@ -234,7 +264,9 @@
       {
         "word": "Apple",
         "emoji": "🍏",
-        "model_label": "Granny Smith",
+        "model_label": [
+          "Granny Smith"
+        ],
         "translations": {
           "es": "Manzana",
           "fr": "Pomme",
@@ -253,7 +285,9 @@
       {
         "word": "Banana",
         "emoji": "🍌",
-        "model_label": "banana",
+        "model_label": [
+          "banana"
+        ],
         "translations": {
           "es": "Plátano",
           "fr": "Banane",
@@ -272,7 +306,9 @@
       {
         "word": "Lemon",
         "emoji": "🍋",
-        "model_label": "lemon",
+        "model_label": [
+          "lemon"
+        ],
         "translations": {
           "es": "Limón",
           "fr": "Citron",
@@ -291,7 +327,9 @@
       {
         "word": "Orange",
         "emoji": "🍊",
-        "model_label": "orange",
+        "model_label": [
+          "orange"
+        ],
         "translations": {
           "es": "Naranja",
           "fr": "Orange",
@@ -310,7 +348,9 @@
       {
         "word": "Strawberry",
         "emoji": "🍓",
-        "model_label": "strawberry",
+        "model_label": [
+          "strawberry"
+        ],
         "translations": {
           "es": "Fresa",
           "fr": "Fraise",
@@ -329,7 +369,10 @@
       {
         "word": "Pineapple",
         "emoji": "🍍",
-        "model_label": "pineapple, ananas",
+        "model_label": [
+          "pineapple",
+          "ananas"
+        ],
         "translations": {
           "es": "Piña",
           "fr": "Ananas",
@@ -348,7 +391,9 @@
       {
         "word": "Tomato",
         "emoji": "🍅",
-        "model_label": "tomato",
+        "model_label": [
+          "tomato"
+        ],
         "translations": {
           "es": "Tomate",
           "fr": "Tomate",
@@ -367,7 +412,9 @@
       {
         "word": "Eggplant",
         "emoji": "🍆",
-        "model_label": "eggplant",
+        "model_label": [
+          "eggplant"
+        ],
         "translations": {
           "es": "Berenjena",
           "fr": "Aubergine",
@@ -386,7 +433,9 @@
       {
         "word": "Broccoli",
         "emoji": "🥦",
-        "model_label": "broccoli",
+        "model_label": [
+          "broccoli"
+        ],
         "translations": {
           "es": "Brócoli",
           "fr": "Brocoli",
@@ -405,7 +454,9 @@
       {
         "word": "Bell pepper",
         "emoji": "🫑",
-        "model_label": "bell pepper",
+        "model_label": [
+          "bell pepper"
+        ],
         "translations": {
           "es": "Pimiento",
           "fr": "Poivron",
@@ -424,7 +475,9 @@
       {
         "word": "Mushroom",
         "emoji": "🍄‍🟫",
-        "model_label": "mushroom",
+        "model_label": [
+          "mushroom"
+        ],
         "translations": {
           "es": "Champiñón",
           "fr": "Champignon",
@@ -445,7 +498,9 @@
       {
         "word": "Hamster",
         "emoji": "🐹",
-        "model_label": "hamster",
+        "model_label": [
+          "hamster"
+        ],
         "translations": {
           "es": "Hámster",
           "fr": "Hamster",
@@ -464,7 +519,10 @@
       {
         "word": "Rabbit",
         "emoji": "🐰",
-        "model_label": "wood rabbit, cottontail / Angora rabbit",
+        "model_label": [
+          "wood rabbit",
+          "cottontail / Angora rabbit"
+        ],
         "translations": {
           "es": "Conejo",
           "fr": "Lapin",
@@ -483,7 +541,10 @@
       {
         "word": "Turtle",
         "emoji": "🐢",
-        "model_label": "box turtle, box tortoise / mud turtle / terrapin",
+        "model_label": [
+          "box turtle",
+          "box tortoise / mud turtle / terrapin"
+        ],
         "translations": {
           "es": "Tortuga",
           "fr": "Tortue",
@@ -502,7 +563,9 @@
       {
         "word": "Lizard",
         "emoji": "🦎",
-        "model_label": "green lizard / banded gecko / iguana",
+        "model_label": [
+          "green lizard / banded gecko / iguana"
+        ],
         "translations": {
           "es": "Lagarto",
           "fr": "Lézard",
@@ -521,7 +584,9 @@
       {
         "word": "Snake",
         "emoji": "🐍",
-        "model_label": "king snake / garter snake / vine snake",
+        "model_label": [
+          "king snake / garter snake / vine snake"
+        ],
         "translations": {
           "es": "Serpiente",
           "fr": "Serpent",
@@ -540,7 +605,9 @@
       {
         "word": "Parrot",
         "emoji": "🦜",
-        "model_label": "macaw / lorikeet / African grey / cockatoo",
+        "model_label": [
+          "macaw / lorikeet / African grey / cockatoo"
+        ],
         "translations": {
           "es": "Loro",
           "fr": "Perroquet",
@@ -561,7 +628,11 @@
       {
         "word": "Car",
         "emoji": "🚗",
-        "model_label": "passenger car, coach, carriage",
+        "model_label": [
+          "passenger car",
+          "coach",
+          "carriage"
+        ],
         "translations": {
           "es": "Coche",
           "fr": "Voiture",
@@ -580,7 +651,11 @@
       {
         "word": "Taxi",
         "emoji": "🚕",
-        "model_label": "cab, taxi, taxicab",
+        "model_label": [
+          "cab",
+          "taxi",
+          "taxicab"
+        ],
         "translations": {
           "es": "Taxi",
           "fr": "Taxi",
@@ -599,7 +674,11 @@
       {
         "word": "Trolleybus",
         "emoji": "🚎",
-        "model_label": "trolleybus, trolley coach, trackless trolley",
+        "model_label": [
+          "trolleybus",
+          "trolley coach",
+          "trackless trolley"
+        ],
         "translations": {
           "es": "Trolebús",
           "fr": "Trolleybus",
@@ -618,7 +697,11 @@
       {
         "word": "Semi truck",
         "emoji": "🚛",
-        "model_label": "trailer truck, tractor trailer, semi",
+        "model_label": [
+          "trailer truck",
+          "tractor trailer",
+          "semi"
+        ],
         "translations": {
           "es": "Camión articulado",
           "fr": "Camion semi-remorque",
@@ -637,7 +720,11 @@
       {
         "word": "Traffic light",
         "emoji": "🚦",
-        "model_label": "traffic light, traffic signal, stoplight",
+        "model_label": [
+          "traffic light",
+          "traffic signal",
+          "stoplight"
+        ],
         "translations": {
           "es": "Semáforo",
           "fr": "Feu tricolore",
@@ -656,7 +743,9 @@
       {
         "word": "Car wheel",
         "emoji": "🛞",
-        "model_label": "car wheel",
+        "model_label": [
+          "car wheel"
+        ],
         "translations": {
           "es": "Rueda de coche",
           "fr": "Roue de voiture",
@@ -675,7 +764,10 @@
       {
         "word": "Motor scooter",
         "emoji": "🛵",
-        "model_label": "motor scooter, scooter",
+        "model_label": [
+          "motor scooter",
+          "scooter"
+        ],
         "translations": {
           "es": "Scooter",
           "fr": "Scooter",
@@ -696,7 +788,9 @@
       {
         "word": "Watch",
         "emoji": "⌚️",
-        "model_label": "digital watch",
+        "model_label": [
+          "digital watch"
+        ],
         "translations": {
           "es": "Reloj",
           "fr": "Montre",
@@ -715,7 +809,10 @@
       {
         "word": "Laptop",
         "emoji": "💻",
-        "model_label": "laptop, laptop computer",
+        "model_label": [
+          "laptop",
+          "laptop computer"
+        ],
         "translations": {
           "es": "Portátil",
           "fr": "Ordinateur portable",
@@ -734,7 +831,10 @@
       {
         "word": "Keyboard",
         "emoji": "⌨️",
-        "model_label": "computer keyboard, keypad",
+        "model_label": [
+          "computer keyboard",
+          "keypad"
+        ],
         "translations": {
           "es": "Teclado",
           "fr": "Clavier",
@@ -753,7 +853,9 @@
       {
         "word": "Desktop computer",
         "emoji": "🖥️",
-        "model_label": "desktop computer",
+        "model_label": [
+          "desktop computer"
+        ],
         "translations": {
           "es": "Ordenador de sobremesa",
           "fr": "Ordinateur de bureau",
@@ -772,7 +874,9 @@
       {
         "word": "Printer",
         "emoji": "🖨️",
-        "model_label": "printer",
+        "model_label": [
+          "printer"
+        ],
         "translations": {
           "es": "Impresora",
           "fr": "Imprimante",
@@ -791,7 +895,9 @@
       {
         "word": "Envelope",
         "emoji": "✉️",
-        "model_label": "envelope",
+        "model_label": [
+          "envelope"
+        ],
         "translations": {
           "es": "Sobre",
           "fr": "Enveloppe",
@@ -810,7 +916,10 @@
       {
         "word": "Computer mouse",
         "emoji": "🖱️",
-        "model_label": "mouse, computer mouse",
+        "model_label": [
+          "mouse",
+          "computer mouse"
+        ],
         "translations": {
           "es": "Ratón",
           "fr": "Souris",
@@ -829,7 +938,11 @@
       {
         "word": "File cabinet",
         "emoji": "🗄️",
-        "model_label": "file, file cabinet, filing cabinet",
+        "model_label": [
+          "file",
+          "file cabinet",
+          "filing cabinet"
+        ],
         "translations": {
           "es": "Archivador",
           "fr": "Meuble à dossiers",
@@ -848,7 +961,12 @@
       {
         "word": "Trash can",
         "emoji": "🗑️",
-        "model_label": "ashcan, trash can, garbage can, wastebin",
+        "model_label": [
+          "ashcan",
+          "trash can",
+          "garbage can",
+          "wastebin"
+        ],
         "translations": {
           "es": "Papelera",
           "fr": "Poubelle",
@@ -869,7 +987,9 @@
       {
         "word": "Soccer ball",
         "emoji": "⚽️",
-        "model_label": "soccer ball",
+        "model_label": [
+          "soccer ball"
+        ],
         "translations": {
           "es": "Balón de fútbol",
           "fr": "Ballon de football",
@@ -888,7 +1008,9 @@
       {
         "word": "Basketball",
         "emoji": "🏀",
-        "model_label": "basketball",
+        "model_label": [
+          "basketball"
+        ],
         "translations": {
           "es": "Balón de baloncesto",
           "fr": "Ballon de basket",
@@ -907,7 +1029,9 @@
       {
         "word": "Screwdriver",
         "emoji": "🪛",
-        "model_label": "screwdriver",
+        "model_label": [
+          "screwdriver"
+        ],
         "translations": {
           "es": "Destornillador",
           "fr": "Tournevis",
@@ -926,7 +1050,9 @@
       {
         "word": "Hammer",
         "emoji": "🔨",
-        "model_label": "hammer",
+        "model_label": [
+          "hammer"
+        ],
         "translations": {
           "es": "Martillo",
           "fr": "Marteau",
@@ -945,7 +1071,9 @@
       {
         "word": "Car wheel",
         "emoji": "🛞",
-        "model_label": "car wheel",
+        "model_label": [
+          "car wheel"
+        ],
         "translations": {
           "es": "Rueda de coche",
           "fr": "Roue de voiture",
@@ -966,7 +1094,10 @@
       {
         "word": "Lion",
         "emoji": "🦁",
-        "model_label": "lion, Panthera leo",
+        "model_label": [
+          "lion",
+          "Panthera leo"
+        ],
         "translations": {
           "es": "León",
           "fr": "Lion",
@@ -985,7 +1116,9 @@
       {
         "word": "Bear",
         "emoji": "🐻",
-        "model_label": "brown bear / black bear / polar bear",
+        "model_label": [
+          "brown bear / black bear / polar bear"
+        ],
         "translations": {
           "es": "Oso",
           "fr": "Ours",
@@ -1004,7 +1137,10 @@
       {
         "word": "Koala",
         "emoji": "🐨",
-        "model_label": "koala, koala bear",
+        "model_label": [
+          "koala",
+          "koala bear"
+        ],
         "translations": {
           "es": "Koala",
           "fr": "Koala",
@@ -1023,7 +1159,9 @@
       {
         "word": "Monkey",
         "emoji": "🐒",
-        "model_label": "capuchin / squirrel monkey / spider monkey",
+        "model_label": [
+          "capuchin / squirrel monkey / spider monkey"
+        ],
         "translations": {
           "es": "Mono",
           "fr": "Singe",
@@ -1042,7 +1180,10 @@
       {
         "word": "Tiger",
         "emoji": "🐅",
-        "model_label": "tiger, Panthera tigris",
+        "model_label": [
+          "tiger",
+          "Panthera tigris"
+        ],
         "translations": {
           "es": "Tigre",
           "fr": "Tigre",
@@ -1061,7 +1202,10 @@
       {
         "word": "Leopard",
         "emoji": "🐆",
-        "model_label": "leopard, Panthera pardus",
+        "model_label": [
+          "leopard",
+          "Panthera pardus"
+        ],
         "translations": {
           "es": "Leopardo",
           "fr": "Léopard",
@@ -1080,7 +1224,10 @@
       {
         "word": "Gorilla",
         "emoji": "🦍",
-        "model_label": "gorilla, Gorilla gorilla",
+        "model_label": [
+          "gorilla",
+          "Gorilla gorilla"
+        ],
         "translations": {
           "es": "Gorila",
           "fr": "Gorille",
@@ -1099,7 +1246,9 @@
       {
         "word": "Elephant",
         "emoji": "🐘",
-        "model_label": "African elephant / Indian elephant",
+        "model_label": [
+          "African elephant / Indian elephant"
+        ],
         "translations": {
           "es": "Elefante",
           "fr": "Éléphant",
@@ -1118,7 +1267,9 @@
       {
         "word": "Crocodile/alligator",
         "emoji": "🐊",
-        "model_label": "African crocodile / American alligator",
+        "model_label": [
+          "African crocodile / American alligator"
+        ],
         "translations": {
           "es": "Cocodrilo/Aligátor",
           "fr": "Crocodile/Alligator",
@@ -1137,7 +1288,9 @@
       {
         "word": "Zebra",
         "emoji": "🦓",
-        "model_label": "zebra",
+        "model_label": [
+          "zebra"
+        ],
         "translations": {
           "es": "Cebra",
           "fr": "Zèbre",
@@ -1158,7 +1311,9 @@
       {
         "word": "Gloves (mittens)",
         "emoji": "🧤",
-        "model_label": "mitten",
+        "model_label": [
+          "mitten"
+        ],
         "translations": {
           "es": "Guantes",
           "fr": "Gants",
@@ -1177,7 +1332,11 @@
       {
         "word": "Jeans",
         "emoji": "👖",
-        "model_label": "jean, blue jean, denim",
+        "model_label": [
+          "jean",
+          "blue jean",
+          "denim"
+        ],
         "translations": {
           "es": "Vaqueros",
           "fr": "Jean",
@@ -1196,7 +1355,9 @@
       {
         "word": "Flip-flops / sandals",
         "emoji": "🩴",
-        "model_label": "sandal",
+        "model_label": [
+          "sandal"
+        ],
         "translations": {
           "es": "Chanclas / sandalias",
           "fr": "Tongs / sandales",
@@ -1215,7 +1376,9 @@
       {
         "word": "Loafers",
         "emoji": "👞",
-        "model_label": "Loafer",
+        "model_label": [
+          "Loafer"
+        ],
         "translations": {
           "es": "Mocasines",
           "fr": "Mocassins",
@@ -1234,7 +1397,9 @@
       {
         "word": "Running shoe",
         "emoji": "👟",
-        "model_label": "running shoe",
+        "model_label": [
+          "running shoe"
+        ],
         "translations": {
           "es": "Zapatilla de correr",
           "fr": "Chaussure de course",
@@ -1253,7 +1418,11 @@
       {
         "word": "Backpack",
         "emoji": "🎒",
-        "model_label": "backpack, rucksack, knapsack",
+        "model_label": [
+          "backpack",
+          "rucksack",
+          "knapsack"
+        ],
         "translations": {
           "es": "Mochila",
           "fr": "Sac à dos",
@@ -1272,7 +1441,11 @@
       {
         "word": "Sunglasses",
         "emoji": "🕶️",
-        "model_label": "sunglasses, dark glasses, shades",
+        "model_label": [
+          "sunglasses",
+          "dark glasses",
+          "shades"
+        ],
         "translations": {
           "es": "Gafas de sol",
           "fr": "Lunettes de soleil",
