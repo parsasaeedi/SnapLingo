@@ -81,9 +81,6 @@ struct GameSessionView: View {
             // Start session, using pre-fetched items if provided; fallback to catalog
             let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
             let items = (initialItems?.isEmpty == false) ? initialItems : CatalogStore.shared.items(in: key)
-            #if DEBUG
-            print("[GameSessionView] Will start session for \(key) with items=\(items?.count ?? 0)")
-            #endif
             gameManager.startSession(environment: environment, items: items, modelContext: modelContext)
             // Start camera session after a brief delay to prevent UI freezing
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -220,14 +217,12 @@ struct GameSessionView: View {
                 Button(action: {
                     cameraService.capturePhoto { image in
                         guard let image = image else {
-                            print("[Classifier] No image captured")
                             gameManager.capturePhoto() // preserve existing flow
                             return
                         }
                         imageClassifier.classify(image: image, topK: 10) { results in
-                            if results.isEmpty {
-                                print("[Classifier] No classifications")
-                            } else {
+                            // Feature requirement: print classifier output
+                            if !results.isEmpty {
                                 let formatted = results.map { "\($0.identifier) (\(String(format: "%.2f", $0.confidence)))" }.joined(separator: ", ")
                                 print("[Classifier] Results: \(formatted)")
                             }

@@ -107,10 +107,7 @@ struct HomeMenuView: View {
                                                 catalogStore.load()
                                                 items = catalogStore.catalog.environments[key] ?? []
                                             }
-                                            guard !items.isEmpty else {
-                                                print("[HomeMenu] No items for environment: \(key)")
-                                                return
-                                            }
+                                            guard !items.isEmpty else { return }
                                             presentedEnv = PresentedEnv(key: key, items: items)
                                         }
                                     }

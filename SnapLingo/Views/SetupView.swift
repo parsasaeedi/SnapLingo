@@ -129,8 +129,6 @@ struct SetupView: View {
 
     private var continueButton: some View {
         Button(action: {
-            let code = languageMap[selectedLanguage] ?? "en"
-            print("Selected language code: \(code)")
             showHomeMenu = true
         }) {
             Text("Continue")

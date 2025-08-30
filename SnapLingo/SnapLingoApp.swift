@@ -13,9 +13,6 @@ struct SnapLingoApp: App {
     init() {
         // Force CatalogStore to initialize and load catalog.json at app launch
         _ = CatalogStore.shared
-        
-        // Test catalog loading
-        TestCatalogLoading.testCatalogLoading()
     }
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
