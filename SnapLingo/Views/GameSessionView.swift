@@ -217,10 +217,7 @@ struct GameSessionView: View {
                 // Shutter Button (larger two circles design)
                 Button(action: {
                     cameraService.capturePhoto { image in
-                        guard let image = image else {
-                            gameManager.capturePhoto() // preserve existing flow
-                            return
-                        }
+                        guard let image = image else { return }
                         imageClassifier.classify(image: image, topK: 10) { results in
                             // Feature requirement: print classifier output
                             if !results.isEmpty {

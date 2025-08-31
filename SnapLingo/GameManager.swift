@@ -17,6 +17,8 @@ class GameManager: ObservableObject {
     @Published var currentStreak = 0
     
     private var timer: Timer?
+    private var isProcessingDecision = false
+    private var hasScheduledAdvance = false
     private let maxTime: TimeInterval = 15.0
     private let perfectBonusWindow: TimeInterval = 5.0
     private let perfectBonusPoints = 50
@@ -76,8 +78,8 @@ class GameManager: ObservableObject {
         modelContext.insert(session)
     }
     
-    func startTimer() {
-        timeRemaining = maxTime
+    func startTimer(remaining: TimeInterval? = nil) {
+        timeRemaining = remaining ?? maxTime
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             // Ensure we hop to main actor explicitly without capturing self across tasks in Swift 6
@@ -89,6 +91,8 @@ class GameManager: ObservableObject {
     
     func updateTimer() {
         guard isGameActive else { return }
+        // If we're showing an overlay/deciding, freeze timer countdown
+        guard !isProcessingDecision else { return }
         
         timeRemaining -= 1.0
         
@@ -123,6 +127,8 @@ class GameManager: ObservableObject {
     }
     
     func itemFound() {
+        guard !isProcessingDecision else { return }
+        isProcessingDecision = true
         guard let currentItem = currentItem else { return }
         
         timer?.invalidate()
@@ -146,33 +152,45 @@ class GameManager: ObservableObject {
         
         showItemFound = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.nextItem()
-        }
+        scheduleAdvance(after: 1.5)
     }
     
     func itemNotFound() {
+        guard !isProcessingDecision else { return }
+        isProcessingDecision = true
+        // Pause timer while showing overlay, then resume with same remaining time
+        let remaining = timeRemaining
+        timer?.invalidate()
         showItemNotFound = true
         currentStreak = 0
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showItemNotFound = false
+            // If game is still active, resume timer where it left off
+            if self.isGameActive {
+                self.isProcessingDecision = false
+                self.startTimer(remaining: max(1.0, remaining))
+            } else {
+                self.isProcessingDecision = false
+            }
         }
     }
     
     func timeExpired() {
+        guard !isProcessingDecision else { return }
+        isProcessingDecision = true
         guard let currentItem = currentItem else { return }
         
         timer?.invalidate()
         currentStreak = 0
         currentItem.found = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.nextItem()
-        }
+        scheduleAdvance(after: 2.0)
     }
     
     func skipCurrentItem() {
+        guard !isProcessingDecision else { return }
+        isProcessingDecision = true
         guard let currentItem = currentItem else { return }
         
         timer?.invalidate()
@@ -181,12 +199,12 @@ class GameManager: ObservableObject {
         showSkipOverlay = true
         
         // Show the answer briefly before moving to next item (similar to timer expiration)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.nextItem()
-        }
+        scheduleAdvance(after: 2.0)
     }
     
     func nextItem() {
+        isProcessingDecision = false
+        hasScheduledAdvance = false
         showItemFound = false
         showItemNotFound = false
         showSkipOverlay = false
@@ -197,6 +215,14 @@ class GameManager: ObservableObject {
             endSession()
         } else {
             startTimer()
+        }
+    }
+
+    private func scheduleAdvance(after delay: TimeInterval) {
+        guard !hasScheduledAdvance else { return }
+        hasScheduledAdvance = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            self.nextItem()
         }
     }
     
