@@ -10,6 +10,7 @@ struct GameSessionView: View {
     @EnvironmentObject var gameManager: GameManager
     @Environment(\.modelContext) private var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss: DismissAction
+    @AppStorage("langCode") private var langCode: String = "en"
     @StateObject private var cameraService = CameraService()
     private let imageClassifier = ImageClassificationService()
     private let verifier = ObjectVerificationService()
@@ -163,7 +164,7 @@ struct GameSessionView: View {
             // Search Target (bigger prompt)
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
-                Text(gameManager.currentItem?.name ?? "")
+                Text(displayName(for: gameManager.currentItem?.name))
                     .font(.title2)
                     .fontWeight(.semibold)
             }
@@ -302,7 +303,7 @@ struct GameSessionView: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text("\(currentItem.name)")
+                    Text(displayName(for: currentItem.name))
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -339,7 +340,7 @@ struct GameSessionView: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text("\(currentItem.name)")
+                    Text(displayName(for: currentItem.name))
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -480,6 +481,18 @@ struct GameSessionView: View {
         let perfectBonus = timeUsed <= 5 ? 50 : 0
         let timeBonus = Int((15 - timeUsed) / 15 * 50)
         return basePoints + perfectBonus + timeBonus
+    }
+
+    // MARK: - Translations
+    private func displayName(for english: String?) -> String {
+        guard let english = english else { return "" }
+        guard langCode != "en" else { return english }
+        let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
+        if let item = CatalogStore.shared.items(in: key).first(where: { $0.word == english }),
+           let translated = item.translations[langCode], !translated.isEmpty {
+            return translated
+        }
+        return english
     }
 }
 

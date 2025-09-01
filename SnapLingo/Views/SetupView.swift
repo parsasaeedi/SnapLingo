@@ -3,6 +3,7 @@ import SwiftUI
 struct SetupView: View {
     @State private var selectedLanguage = "English"
     @State private var showHomeMenu = false
+    @AppStorage("langCode") private var langCode: String = "en"
 
     // Map of display label -> two-letter code
     private let languageMap: [String: String] = [
@@ -129,6 +130,8 @@ struct SetupView: View {
 
     private var continueButton: some View {
         Button(action: {
+            let code = languageMap[selectedLanguage] ?? "en"
+            langCode = code
             showHomeMenu = true
         }) {
             Text("Continue")
