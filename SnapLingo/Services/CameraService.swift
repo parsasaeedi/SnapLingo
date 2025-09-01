@@ -2,9 +2,10 @@ import AVFoundation
 import Vision
 import CoreML
 import UIKit
+import CoreImage
 import Combine
 
-class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
+class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     @Published var isAuthorized = false
     @Published var error: CameraError?
     @Published var isConfigured = false
@@ -15,6 +16,8 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
     private var isConfiguring = false
     private var previewLayer: AVCaptureVideoPreviewLayer?
     private var photoCaptureCompletion: ((UIImage?) -> Void)?
+    private var latestPixelBuffer: CVPixelBuffer?
+    private let ciContext = CIContext()
     
     // Expose the session for preview layers
     var captureSession: AVCaptureSession { session }
@@ -99,10 +102,13 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
                     self.session.addInput(videoInput)
                 }
 
-                // Removed videoOutput addition
-                // if self.session.canAddOutput(self.videoOutput) {
-                //     self.session.addOutput(self.videoOutput)
-                // }
+                // Video output for silent frame capture
+                self.videoOutput.alwaysDiscardsLateVideoFrames = true
+                self.videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
+                if self.session.canAddOutput(self.videoOutput) {
+                    self.session.addOutput(self.videoOutput)
+                    self.videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "CameraVideoQueue"))
+                }
 
                 if self.session.canAddOutput(self.photoOutput) {
                     self.session.addOutput(self.photoOutput)
@@ -181,5 +187,24 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
 
         let completion = photoCaptureCompletion; photoCaptureCompletion = nil
         completion?(image)
+    }
+
+    // MARK: - Silent frame capture from video
+    func captureCurrentFrame(completion: @escaping (UIImage?) -> Void) {
+        guard let pb = latestPixelBuffer else { completion(nil); return }
+        let ci = CIImage(cvPixelBuffer: pb)
+        let rect = ci.extent
+        if let cg = ciContext.createCGImage(ci, from: rect) {
+            completion(UIImage(cgImage: cg))
+        } else {
+            completion(nil)
+        }
+    }
+
+    // AVCaptureVideoDataOutputSampleBufferDelegate
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        if let pb = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            latestPixelBuffer = pb
+        }
     }
 }

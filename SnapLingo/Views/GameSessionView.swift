@@ -12,8 +12,10 @@ struct GameSessionView: View {
     @Environment(\.dismiss) private var dismiss: DismissAction
     @AppStorage("langCode") private var langCode: String = "en"
     @StateObject private var cameraService = CameraService()
+    private let volumeService = VolumeButtonShutterService()
     @State private var cameraStarted = false
     @State private var showCameraLoading = true
+    @State private var isShutterPressed = false
     
     init(environment: String, initialItems: [Item]? = nil) {
         self.environment = environment
@@ -24,6 +26,9 @@ struct GameSessionView: View {
         ZStack {
             // Camera Background
             CameraBackgroundView(cameraService: cameraService)
+            // Invisible listener to capture hardware volume button presses
+            VolumeButtonListener(service: volumeService)
+                .frame(width: 0, height: 0)
             
             // Loading overlay while camera initializes
             if showCameraLoading && cameraService.isAuthorized {
@@ -41,7 +46,7 @@ struct GameSessionView: View {
                     )
                     .ignoresSafeArea()
             }
-            
+
             // Game UI Overlay
             VStack(spacing: 0) {
                 // Top Bar with Progress
@@ -58,7 +63,7 @@ struct GameSessionView: View {
             if gameManager.showItemNotFound {
                 itemNotFoundOverlay
             }
-            
+
             if gameManager.showItemFound {
                 itemFoundOverlay
             }
@@ -89,6 +94,8 @@ struct GameSessionView: View {
                     cameraStarted = true
                 }
             }
+            // Hook volume buttons to shutter
+            volumeService.onTrigger = { triggerShutter() }
         }
         .onReceive(cameraService.$isConfigured) { isConfigured in
             if isConfigured {
@@ -99,8 +106,21 @@ struct GameSessionView: View {
             gameManager.resetGame()
             cameraService.stopSession()
             cameraStarted = false
+            volumeService.stop()
         }
     }
+
+// A tiny invisible UIView to host MPVolumeView so hardware volume presses can be detected
+private struct VolumeButtonListener: UIViewRepresentable {
+    let service: VolumeButtonShutterService
+    func makeUIView(context: Context) -> UIView {
+        let v = UIView(frame: .zero)
+        service.start(in: v)
+        return v
+    }
+    func updateUIView(_ uiView: UIView, context: Context) {}
+    static func dismantleUIView(_ uiView: UIView, coordinator: ()) {}
+}
     
     private var topBar: some View {
         VStack(spacing: 16) {
@@ -214,12 +234,7 @@ struct GameSessionView: View {
                 Spacer()
                 
                 // Shutter Button (larger two circles design)
-                Button(action: {
-                    cameraService.capturePhoto { image in
-                        guard let image = image else { return }
-                        gameManager.handleShutter(image: image, environmentKey: environment)
-                    }
-                }) {
+                Button(action: { triggerShutter() }) {
                     ZStack {
                         // Outer circle - white frosted glass
                         Circle()
@@ -228,7 +243,7 @@ struct GameSessionView: View {
                         
                         // Inner circle - solid white
                         Circle()
-                            .fill(.white)
+                            .fill(isShutterPressed ? Color.white.opacity(0.6) : Color.white)
                             .frame(width: 75, height: 75)
 
                     }
@@ -253,8 +268,7 @@ struct GameSessionView: View {
             }
         }
         .padding(.bottom, 0) // Move buttons closer to bottom edge
-    }
-    
+            }
     private var timerExpiredOverlay: some View {
         ZStack {
             Color.black.opacity(0.7)
@@ -449,6 +463,19 @@ struct GameSessionView: View {
         let perfectBonus = timeUsed <= 5 ? 50 : 0
         let timeBonus = Int((15 - timeUsed) / 15 * 50)
         return basePoints + perfectBonus + timeBonus
+    }
+
+    private func triggerShutter() {
+        withAnimation(.easeOut(duration: 0.12)) { isShutterPressed = true }
+        // Use silent frame capture to avoid system shutter sound
+        cameraService.captureCurrentFrame { image in
+            if let image = image {
+                gameManager.handleShutter(image: image, environmentKey: environment)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
+                withAnimation(.easeOut(duration: 0.12)) { isShutterPressed = false }
+            }
+        }
     }
 
     // MARK: - Translations
