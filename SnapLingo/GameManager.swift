@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UIKit
 import SwiftData
 import Combine
 
@@ -19,6 +20,9 @@ class GameManager: ObservableObject {
     private var timer: Timer?
     private var isProcessingDecision = false
     private var hasScheduledAdvance = false
+    private var pendingAdvance: DispatchWorkItem?
+    private let classifier = ImageClassificationService()
+    private let verifier = ObjectVerificationService()
     private let maxTime: TimeInterval = 15.0
     private let perfectBonusWindow: TimeInterval = 5.0
     private let perfectBonusPoints = 50
@@ -46,6 +50,7 @@ class GameManager: ObservableObject {
     }
     
     func startSession(environment: String, items: [Item]? = nil, modelContext: ModelContext) {
+        cancelPendingAdvance()
         let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
         let session = GameSession(environment: key)
 
@@ -76,6 +81,41 @@ class GameManager: ObservableObject {
         startTimer()
         
         modelContext.insert(session)
+    }
+
+    // MARK: - Capture Handling moved from GameSessionView
+    func handleShutter(image: UIImage, environmentKey: String) {
+        let key = environmentKey.replacingOccurrences(of: " ", with: "_").lowercased()
+        classifier.classify(image: image, topK: 10) { [weak self] results in
+            guard let self = self else { return }
+            if !results.isEmpty {
+                let formatted = results.map { "\($0.identifier) (\(String(format: "%.2f", $0.confidence)))" }.joined(separator: ", ")
+                print("[Classifier] Results: \(formatted)")
+            }
+
+            guard let currentWord = self.currentItem?.name else {
+                self.itemNotFound()
+                return
+            }
+
+            let catalogItems = CatalogStore.shared.items(in: key)
+            if let item = catalogItems.first(where: { $0.word == currentWord }) {
+                let preds = results.asClassifications()
+                let verification = self.verifier.verifyAndLog(
+                    modelLabels: item.model_label,
+                    predictions: preds,
+                    options: VerificationOptions(topK: 10, minConfidence: 0.4, enableFuzzy: true)
+                )
+                if verification.isMatch {
+                    self.itemFound()
+                } else {
+                    self.itemNotFound()
+                }
+            } else {
+                print("[Verify] No catalog item found for word: \(currentWord)")
+                self.itemNotFound()
+            }
+        }
     }
     
     func startTimer(remaining: TimeInterval? = nil) {
@@ -219,11 +259,19 @@ class GameManager: ObservableObject {
     }
 
     private func scheduleAdvance(after delay: TimeInterval) {
-        guard !hasScheduledAdvance else { return }
+        cancelPendingAdvance()
         hasScheduledAdvance = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            self.nextItem()
+        let work = DispatchWorkItem { [weak self] in
+            self?.nextItem()
         }
+        pendingAdvance = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+    }
+
+    private func cancelPendingAdvance() {
+        pendingAdvance?.cancel()
+        pendingAdvance = nil
+        hasScheduledAdvance = false
     }
     
     func endSession() {

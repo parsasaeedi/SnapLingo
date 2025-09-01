@@ -12,8 +12,6 @@ struct GameSessionView: View {
     @Environment(\.dismiss) private var dismiss: DismissAction
     @AppStorage("langCode") private var langCode: String = "en"
     @StateObject private var cameraService = CameraService()
-    private let imageClassifier = ImageClassificationService()
-    private let verifier = ObjectVerificationService()
     @State private var cameraStarted = false
     @State private var showCameraLoading = true
     
@@ -219,37 +217,7 @@ struct GameSessionView: View {
                 Button(action: {
                     cameraService.capturePhoto { image in
                         guard let image = image else { return }
-                        imageClassifier.classify(image: image, topK: 10) { results in
-                            // Feature requirement: print classifier output
-                            if !results.isEmpty {
-                                let formatted = results.map { "\($0.identifier) (\(String(format: "%.2f", $0.confidence)))" }.joined(separator: ", ")
-                                print("[Classifier] Results: \(formatted)")
-                            }
-
-                            // Verify against the prompted item's model_label using catalog.json
-                            if let currentWord = gameManager.currentItem?.name {
-                                let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
-                                let catalogItems = CatalogStore.shared.items(in: key)
-                                if let item = catalogItems.first(where: { $0.word == currentWord }) {
-                                    let preds = results.asClassifications()
-                                    let verification = verifier.verifyAndLog(
-                                        modelLabels: item.model_label,
-                                        predictions: preds,
-                                        options: VerificationOptions(topK: 10, minConfidence: 0.4, enableFuzzy: true)
-                                    )
-                                    if verification.isMatch {
-                                        gameManager.itemFound()
-                                    } else {
-                                        gameManager.itemNotFound()
-                                    }
-                                } else {
-                                    print("[Verify] No catalog item found for word: \(currentWord)")
-                                    gameManager.itemNotFound()
-                                }
-                            } else {
-                                gameManager.itemNotFound()
-                            }
-                        }
+                        gameManager.handleShutter(image: image, environmentKey: environment)
                     }
                 }) {
                     ZStack {
