@@ -186,12 +186,19 @@ struct EnvironmentCard: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 24)
                     .fill(environmentItem.backgroundColor)
+                    .shadow(color: environmentItem.backgroundColor.opacity(0.5), radius: 2, x: 0, y: 0)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 24)
+                            .stroke(Color(red: 0.078, green: 0.122, blue: 0.141).opacity(0.5), lineWidth: 4)
+                            .blur(radius: 8)
+                    )
                 
                 VStack {
                     HStack {
                         Image(systemName: environmentItem.icon)
                             .font(.system(size: 32, weight: .medium))
                             .foregroundColor(environmentItem.foregroundColor)
+                            .shadow(color: Color(red: 0.078, green: 0.122, blue: 0.141).opacity(0.3), radius: 6, x: 0, y: 0)
                         Spacer()
                     }
                     .padding(.top, 24)
@@ -205,6 +212,7 @@ struct EnvironmentCard: View {
                                 Text(line)
                                     .font(.system(size: 24, weight: .bold, design: .default))
                                     .foregroundColor(environmentItem.foregroundColor)
+                                    .shadow(color: Color(red: 0.078, green: 0.122, blue: 0.141).opacity(0.3), radius: 6, x: 0, y: 0)
                                     .multilineTextAlignment(.leading)
                             }
                         }
