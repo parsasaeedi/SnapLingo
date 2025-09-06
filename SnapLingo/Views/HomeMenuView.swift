@@ -37,14 +37,14 @@ struct HomeMenuView: View {
         ]
         
         let foregroundColorMap: [String: Color] = [
-            "home": Color(red: 0.05, green: 0.3, blue: 0.5),      // Dark blue
-            "food": Color(red: 0.5, green: 0.05, blue: 0.1),      // Dark red
-            "pet_store": Color(red: 0.3, green: 0.05, blue: 0.4), // Dark purple
-            "street": Color(red: 0.05, green: 0.4, blue: 0.1),    // Dark green
-            "garage": Color(red: 0.4, green: 0.2, blue: 0.05),    // Dark brown
-            "office": Color(red: 0.4, green: 0.05, blue: 0.3),    // Dark magenta
-            "clothing": Color(red: 0.1, green: 0.3, blue: 0.4),   // Dark teal
-            "zoo": Color(red: 0.5, green: 0.4, blue: 0.05)        // Dark yellow
+            "home": Color.white,                                   // White on cyan
+            "food": Color.white,                                   // White on coral red
+            "pet_store": Color.white,                               // White on purple
+            "street": Color.white,                                 // White on bright green
+            "garage": Color.white,                                 // White on orange
+            "office": Color.white,                                 // White on hot pink
+            "clothing": Color.white,                                // White on sky blue
+            "zoo": Color.white                                     // white on golden yellow
         ]
 
         let envs = catalogStore.catalog.environments
@@ -133,6 +133,7 @@ struct HomeMenuView: View {
                 }
             }
             .navigationBarHidden(true)
+            .background(Color(red: 0.078, green: 0.122, blue: 0.141))
         }
         .fullScreenCover(item: $presentedEnv) { env in
             GameSessionView(environment: env.key, initialItems: env.items)
