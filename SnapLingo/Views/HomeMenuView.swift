@@ -9,8 +9,8 @@ struct HomeMenuView: View {
     @State private var showSetupView = false
     
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
     ]
     
     // Environments from catalog.json
@@ -25,15 +25,26 @@ struct HomeMenuView: View {
             "clothing": "tshirt.fill",
             "zoo": "tortoise.fill"
         ]
-        let colorMap: [String: Color] = [
-            "home": .blue,
-            "food": .red,
-            "pet_store": .orange,
-            "street": .green,
-            "garage": .gray,
-            "office": .purple,
-            "clothing": .pink,
-            "zoo": .teal
+        let backgroundColorMap: [String: Color] = [
+            "home": Color(red: 0.2, green: 0.7, blue: 0.9),       // Bright cyan
+            "food": Color(red: 0.9, green: 0.3, blue: 0.4),       // Coral red
+            "pet_store": Color(red: 0.6, green: 0.2, blue: 0.8),  // Vibrant purple
+            "street": Color(red: 0.1, green: 0.8, blue: 0.3),     // Bright green
+            "garage": Color(red: 0.8, green: 0.5, blue: 0.2),     // Orange
+            "office": Color(red: 0.8, green: 0.2, blue: 0.6),     // Hot pink
+            "clothing": Color(red: 0.3, green: 0.6, blue: 0.8),   // Sky blue
+            "zoo": Color(red: 0.9, green: 0.7, blue: 0.2)         // Golden yellow
+        ]
+        
+        let foregroundColorMap: [String: Color] = [
+            "home": Color(red: 0.05, green: 0.3, blue: 0.5),      // Dark blue
+            "food": Color(red: 0.5, green: 0.05, blue: 0.1),      // Dark red
+            "pet_store": Color(red: 0.3, green: 0.05, blue: 0.4), // Dark purple
+            "street": Color(red: 0.05, green: 0.4, blue: 0.1),    // Dark green
+            "garage": Color(red: 0.4, green: 0.2, blue: 0.05),    // Dark brown
+            "office": Color(red: 0.4, green: 0.05, blue: 0.3),    // Dark magenta
+            "clothing": Color(red: 0.1, green: 0.3, blue: 0.4),   // Dark teal
+            "zoo": Color(red: 0.5, green: 0.4, blue: 0.05)        // Dark yellow
         ]
 
         let envs = catalogStore.catalog.environments
@@ -43,7 +54,8 @@ struct HomeMenuView: View {
                 key: key,
                 name: key.replacingOccurrences(of: "_", with: " ").capitalized,
                 icon: iconMap[key] ?? "square.grid.2x2",
-                color: colorMap[key] ?? .blue,
+                backgroundColor: backgroundColorMap[key] ?? Color(red: 0.95, green: 0.95, blue: 0.95),
+                foregroundColor: foregroundColorMap[key] ?? Color(red: 0.4, green: 0.4, blue: 0.4),
                 isComingSoon: false,
                 itemCount: items.count
             )
@@ -95,7 +107,7 @@ struct HomeMenuView: View {
                         .padding(.top, 20)
                         
                         // Environment Grid
-                        LazyVGrid(columns: columns, spacing: 16) {
+                        LazyVGrid(columns: columns, spacing: 12) {
                             ForEach(allEnvironments, id: \.id) { item in
                                 EnvironmentCard(
                                     environmentItem: item,
@@ -112,9 +124,10 @@ struct HomeMenuView: View {
                                         }
                                     }
                                 )
+                                .frame(width: 180, height: 180)
                             }
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 28)
                     }
                     .padding(.bottom, 30)
                 }
@@ -136,15 +149,17 @@ struct EnvironmentItem {
     let key: String
     let name: String
     let icon: String
-    let color: Color
+    let backgroundColor: Color
+    let foregroundColor: Color
     let isComingSoon: Bool
     let itemCount: Int
     
-    init(key: String, name: String, icon: String, color: Color, isComingSoon: Bool, itemCount: Int) {
+    init(key: String, name: String, icon: String, backgroundColor: Color, foregroundColor: Color, isComingSoon: Bool, itemCount: Int) {
         self.key = key
         self.name = name
         self.icon = icon
-        self.color = color
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
         self.isComingSoon = isComingSoon
         self.itemCount = itemCount
     }
@@ -160,43 +175,44 @@ struct EnvironmentCard: View {
     let environmentItem: EnvironmentItem
     let onTap: () -> Void
     
+    var nameLines: [String] {
+        let words = environmentItem.name.components(separatedBy: " ")
+        return words.count > 1 ? words : [environmentItem.name]
+    }
+    
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 16) {
-                Image(systemName: environmentItem.icon)
-                    .font(.system(size: 40))
-                    .foregroundStyle(
-                        .linearGradient(
-                            colors: environmentItem.isComingSoon
-                                ? [environmentItem.color.opacity(0.6), environmentItem.color.opacity(0.6)]
-                                : [.blue, .purple],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(height: 40) // Fixed height for consistent sizing
+            ZStack {
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(environmentItem.backgroundColor)
                 
-                VStack(spacing: 4) {
-                    Text(environmentItem.name)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(environmentItem.isComingSoon ? .secondary : .primary)
+                VStack {
+                    HStack {
+                        Image(systemName: environmentItem.icon)
+                            .font(.system(size: 32, weight: .medium))
+                            .foregroundColor(environmentItem.foregroundColor)
+                        Spacer()
+                    }
+                    .padding(.top, 24)
+                    .padding(.leading, 24)
                     
-                    Text(environmentItem.isComingSoon ? "Coming Soon" : "\(environmentItem.itemCount) items")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    Spacer()
+                    
+                    HStack {
+                        VStack(alignment: .leading, spacing: 1) {
+                            ForEach(nameLines, id: \.self) { line in
+                                Text(line)
+                                    .font(.system(size: 24, weight: .bold, design: .default))
+                                    .foregroundColor(environmentItem.foregroundColor)
+                                    .multilineTextAlignment(.leading)
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding(.bottom, 24)
+                    .padding(.leading, 24)
                 }
             }
-            .frame(maxWidth: .infinity, minHeight: 120) // Fixed minimum height for consistency
-            .padding(.vertical, 24)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(.quaternary, lineWidth: 1)
-                    )
-            )
             .opacity(environmentItem.isComingSoon ? 0.5 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
