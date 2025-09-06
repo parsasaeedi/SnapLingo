@@ -1,0 +1,84 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-gray:0.75000,1.00000"
+  },
+  "groups" : [
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill" : {
+            "solid" : "extended-gray:1.00000,1.00000"
+          },
+          "glass" : true,
+          "image-name" : "MagnfiyingGlass.svg",
+          "name" : "MagnfiyingGlass",
+          "opacity" : 0.8,
+          "position" : {
+            "scale" : 0.25,
+            "translation-in-points" : [
+              140,
+              70
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "srgb:0.53725,0.88627,0.09804,1.00000"
+          },
+          "hidden" : true,
+          "image-name" : "ChineseLetter.svg",
+          "name" : "ChineseLetter",
+          "opacity" : 0.8,
+          "position" : {
+            "scale" : 0.18,
+            "translation-in-points" : [
+              -80,
+              -70
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "extended-gray:0.00000,1.00000"
+          },
+          "glass" : true,
+          "image-name" : "ChineseBubble.svg",
+          "name" : "ChineseBubble",
+          "opacity" : 0.8,
+          "position" : {
+            "scale" : 0.27,
+            "translation-in-points" : [
+              -80,
+              -35
+            ]
+          }
+        }
+      ],
+      "lighting" : "individual",
+      "position" : {
+        "scale" : 1.15,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
