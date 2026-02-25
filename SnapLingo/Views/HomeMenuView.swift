@@ -8,10 +8,14 @@ struct HomeMenuView: View {
     @State private var presentedEnv: PresentedEnv?
     @State private var showSetupView = false
     
-    let columns = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
-    ]
+    private let gridSpacing: CGFloat = 16
+
+    var columns: [GridItem] {
+        [
+            GridItem(.flexible(), spacing: gridSpacing),
+            GridItem(.flexible(), spacing: gridSpacing)
+        ]
+    }
     
     // Environments from catalog.json
     var allEnvironments: [EnvironmentItem] {
@@ -124,10 +128,10 @@ struct HomeMenuView: View {
                                         }
                                     }
                                 )
-                                .frame(width: 180, height: 180)
+                                .aspectRatio(1, contentMode: .fit)
                             }
                         }
-                        .padding(.horizontal, 28)
+                        .padding(.horizontal, gridSpacing)
                     }
                     .padding(.bottom, 30)
                 }
