@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct SetupView: View {
     @State private var selectedLanguage = "English"
@@ -61,6 +62,11 @@ struct SetupView: View {
         }
         .fullScreenCover(isPresented: $showHomeMenu) {
             HomeMenuView()
+        }
+        .onAppear {
+            if AVCaptureDevice.authorizationStatus(for: .video) == .notDetermined {
+                AVCaptureDevice.requestAccess(for: .video) { _ in }
+            }
         }
     }
 
