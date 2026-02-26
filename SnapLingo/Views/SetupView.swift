@@ -7,7 +7,6 @@ struct SetupView: View {
     @AppStorage("langCode") private var langCode: String = "en"
     @ScaledMetric(relativeTo: .largeTitle) private var headerIconSize: CGFloat = 80
 
-    // Map of display label -> two-letter code
     private let languageMap: [String: String] = [
         "English": "en",
         "Spanish": "es",
@@ -25,7 +24,6 @@ struct SetupView: View {
     ]
     private var languageLabels: [String] { languageMap.keys.sorted() }
 
-    // Extract gradients so type inference is trivial
     private var brandGradientDiagonal: LinearGradient {
         LinearGradient(
             colors: [.blue, .purple],
@@ -70,8 +68,6 @@ struct SetupView: View {
             }
         }
     }
-
-    // MARK: - Sections
 
     private var headerSection: some View {
         VStack(spacing: 20) {
@@ -154,8 +150,6 @@ struct SetupView: View {
         }
     }
 }
-
-// MARK: - Subviews
 
 private struct LanguageRow: View {
     let language: String

@@ -11,7 +11,6 @@ import SwiftData
 @main
 struct SnapLingoApp: App {
     init() {
-        // Force CatalogStore to initialize and load catalog.json at app launch
         _ = CatalogStore.shared
     }
     var sharedModelContainer: ModelContainer = {

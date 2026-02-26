@@ -54,7 +54,6 @@ class GameManager: ObservableObject {
         let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
         let session = GameSession(environment: key)
 
-        // Prefer provided items, else fetch from catalog
         var itemsForEnv: [Item]
         if let items, !items.isEmpty {
             itemsForEnv = items
@@ -66,7 +65,6 @@ class GameManager: ObservableObject {
             }
         }
 
-        // Build prompts from catalog items: shuffle once, then go linearly through all
         let ordered = itemsForEnv.shuffled()
         for item in ordered {
             let gameItem = GameItem(name: item.word, emoji: item.emoji, sessionId: session.id)
@@ -83,7 +81,6 @@ class GameManager: ObservableObject {
         modelContext.insert(session)
     }
 
-    // MARK: - Capture Handling moved from GameSessionView
     func handleShutter(image: UIImage, environmentKey: String) {
         let key = environmentKey.replacingOccurrences(of: " ", with: "_").lowercased()
         classifier.classify(image: image, topK: 10) { [weak self] results in
@@ -122,8 +119,7 @@ class GameManager: ObservableObject {
         timeRemaining = remaining ?? maxTime
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            // Ensure we hop to main actor explicitly without capturing self across tasks in Swift 6
-            DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.async { [weak self] in
                 self?.updateTimer()
             }
         }
@@ -131,12 +127,10 @@ class GameManager: ObservableObject {
     
     func updateTimer() {
         guard isGameActive else { return }
-        // If we're showing an overlay/deciding, freeze timer countdown
         guard !isProcessingDecision else { return }
         
         timeRemaining -= 1.0
         
-        // Haptic feedback at specific times (changed from 5,3,1 to 3,2,1)
         if timeRemaining == 3 || timeRemaining == 2 || timeRemaining == 1 {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
@@ -145,25 +139,6 @@ class GameManager: ObservableObject {
         if timeRemaining <= 0 {
             timeExpired()
         }
-    }
-    
-    func capturePhoto() {
-        guard let currentItem = currentItem else { return }
-        
-        // Simulate object detection (in a real app, this would use Vision and Core ML)
-        let detected = simulateObjectDetection(for: currentItem.name)
-        
-        if detected {
-            itemFound()
-        } else {
-            itemNotFound()
-        }
-    }
-    
-    private func simulateObjectDetection(for itemName: String) -> Bool {
-        // Simulate 70% success rate for demo purposes
-        // In a real app, this would use Vision and Core ML for actual object detection
-        return Double.random(in: 0...1) < 0.7
     }
     
     func itemFound() {
@@ -176,12 +151,10 @@ class GameManager: ObservableObject {
         let timeUsed = maxTime - timeRemaining
         var points = basePoints
         
-        // Perfect bonus for finding within first 5 seconds
         if timeUsed <= perfectBonusWindow {
             points += perfectBonusPoints
         }
         
-        // Time bonus (faster = more points)
         let timeBonus = Int((maxTime - timeUsed) / maxTime * 50)
         points += timeBonus
         
@@ -198,7 +171,6 @@ class GameManager: ObservableObject {
     func itemNotFound() {
         guard !isProcessingDecision else { return }
         isProcessingDecision = true
-        // Pause timer while showing overlay, then resume with same remaining time
         let remaining = timeRemaining
         timer?.invalidate()
         showItemNotFound = true
@@ -206,7 +178,6 @@ class GameManager: ObservableObject {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.showItemNotFound = false
-            // If game is still active, resume timer where it left off
             if self.isGameActive {
                 self.isProcessingDecision = false
                 self.startTimer(remaining: max(1.0, remaining))
@@ -238,7 +209,6 @@ class GameManager: ObservableObject {
         currentItem.found = false
         showSkipOverlay = true
         
-        // Show the answer briefly before moving to next item (similar to timer expiration)
         scheduleAdvance(after: 2.0)
     }
     

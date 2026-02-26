@@ -1,7 +1,6 @@
 import Foundation
 import SwiftUI
 
-// MARK: - GameSession Extensions
 extension GameSession {
     var duration: TimeInterval {
         guard let endTime = endTime else { return 0 }
@@ -26,7 +25,6 @@ extension GameSession {
     }
 }
 
-// MARK: - UserProgress Extensions
 extension UserProgress {
     var averageScore: Double {
         guard totalSessions > 0 else { return 0 }
@@ -35,20 +33,15 @@ extension UserProgress {
     
     var completionRate: Double {
         guard totalSessions > 0 else { return 0 }
-        // This would be calculated based on actual session data
-        return 0.75 // Placeholder
+        return 0.75
     }
 }
 
-// GameEnvironment removed; environment helpers derived from CatalogStore when needed
-
-// MARK: - Color Extensions
 extension Color {
     static let liquidGlass = Color(.systemBackground).opacity(0.8)
     static let liquidGlassSecondary = Color(.secondarySystemBackground).opacity(0.8)
 }
 
-// MARK: - View Extensions
 extension View {
     func liquidGlassBackground() -> some View {
         self.background(

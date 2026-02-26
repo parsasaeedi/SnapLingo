@@ -26,12 +26,10 @@ final class CatalogStore: ObservableObject {
         }
     }
 
-    // Convenience
     func items(in environment: String) -> [Item] {
         catalog.environments[environment, default: []]
     }
     
-    // Check if catalog is loaded
     var isLoaded: Bool {
         !catalog.environments.isEmpty
     }

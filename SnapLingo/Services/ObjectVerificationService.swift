@@ -1,6 +1,5 @@
 import Foundation
 
-// Lightweight classification value used by the verifier
 struct Classification: Equatable {
     let label: String
     let confidence: Double
@@ -8,7 +7,6 @@ struct Classification: Equatable {
 
 struct VerificationOptions {
     var topK: Int = 10
-    // Confidence is ignored for exact matches; used as a gate for fuzzy only
     var minConfidence: Double = 0.0
     var enableFuzzy: Bool = true
     var jaccardThreshold: Double = 0.85
@@ -28,7 +26,6 @@ protocol ObjectVerifying {
 
 final class ObjectVerificationService: ObjectVerifying {
     func verify(modelLabels: [String], predictions: [Classification], options: VerificationOptions = .init()) -> VerificationResult {
-        // Expand aliases: normalize and also split any "/" leftovers into additional aliases
         let aliases: [String] = modelLabels
             .flatMap { $0.split(on: "/") }
             .map { $0.normalized() }
@@ -38,23 +35,20 @@ final class ObjectVerificationService: ObjectVerifying {
             return .init(isMatch: false, matchedModelLabel: nil, matchedPrediction: nil, reason: "no_aliases")
         }
 
-        // Expand prediction synonyms (commas and slashes) and normalize
         let preds: [Classification] = predictions
             .prefix(options.topK)
             .flatMap { p in
                 p.label
-                    .splitMulti([",", "/"]) // split into synonyms
+                    .splitMulti([",", "/"])
                     .map { Classification(label: $0.normalized(), confidence: p.confidence) }
             }
 
-        // 1) exact alias match
         for p in preds {
             if let hit = aliases.first(where: { $0 == p.label }) {
                 return .init(isMatch: true, matchedModelLabel: hit, matchedPrediction: p, reason: "exact")
             }
         }
 
-        // 2) light fuzzy matching (token Jaccard + edit distance)
         if options.enableFuzzy {
             for p in preds where p.confidence >= options.minConfidence {
                 let pTokens = p.label.tokens()
@@ -69,7 +63,6 @@ final class ObjectVerificationService: ObjectVerifying {
         return .init(isMatch: false, matchedModelLabel: nil, matchedPrediction: nil, reason: "no_match")
     }
 
-    // Optional helper that logs the outcome for quick diagnostics
     func verifyAndLog(modelLabels: [String], predictions: [Classification], options: VerificationOptions = .init()) -> VerificationResult {
         let result = verify(modelLabels: modelLabels, predictions: predictions, options: options)
         let labelList = modelLabels.joined(separator: ", ")
@@ -82,14 +75,12 @@ final class ObjectVerificationService: ObjectVerifying {
     }
 }
 
-// MARK: - Convenience mapping from ImageClassificationService.Result
 extension Array where Element == ImageClassificationService.Result {
     func asClassifications() -> [Classification] {
         map { Classification(label: $0.identifier, confidence: Double($0.confidence)) }
     }
 }
 
-// MARK: - String helpers
 private extension String {
     func normalized() -> String {
         let lowered = self.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: .current)

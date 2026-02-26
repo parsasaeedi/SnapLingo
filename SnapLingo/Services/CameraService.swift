@@ -19,7 +19,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
     private var latestPixelBuffer: CVPixelBuffer?
     private let ciContext = CIContext()
     
-    // Expose the session for preview layers
     var captureSession: AVCaptureSession { session }
     
     override init() {
@@ -88,7 +87,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
             do {
                 let videoInput = try AVCaptureDeviceInput(device: videoDevice)
                 
-                // Set continuous autofocus/exposure if supported
                 try? videoDevice.lockForConfiguration()
                 if videoDevice.isFocusModeSupported(.continuousAutoFocus) {
                     videoDevice.focusMode = .continuousAutoFocus
@@ -102,7 +100,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
                     self.session.addInput(videoInput)
                 }
 
-                // Video output for silent frame capture
                 self.videoOutput.alwaysDiscardsLateVideoFrames = true
                 self.videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
                 if self.session.canAddOutput(self.videoOutput) {
@@ -143,19 +140,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
         session.stopRunning()
     }
     
-    func getPreviewLayer() -> AVCaptureVideoPreviewLayer? {
-        return previewLayer
-    }
-    
-    // Future: Object detection using Vision and Core ML
-    func detectObject(in image: CVPixelBuffer, targetObject: String) -> Bool {
-        // This would integrate with Vision framework and Core ML models
-        // For now, return a simulated result
-        return Double.random(in: 0...1) < 0.7
-    }
-
-    // MARK: - Photo Capture
-
     func capturePhoto(completion: @escaping (UIImage?) -> Void) {
         guard isAuthorized, isConfigured else { completion(nil); return }
         photoCaptureCompletion = completion
@@ -172,7 +156,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
 
-    // AVCapturePhotoCaptureDelegate
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else {
             let completion = photoCaptureCompletion; photoCaptureCompletion = nil
@@ -189,7 +172,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
         completion?(image)
     }
 
-    // MARK: - Silent frame capture from video
     func captureCurrentFrame(completion: @escaping (UIImage?) -> Void) {
         guard let pb = latestPixelBuffer else { completion(nil); return }
         let ci = CIImage(cvPixelBuffer: pb)
@@ -201,7 +183,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
         }
     }
 
-    // AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if let pb = CMSampleBufferGetImageBuffer(sampleBuffer) {
             latestPixelBuffer = pb

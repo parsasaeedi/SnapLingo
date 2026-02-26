@@ -17,7 +17,6 @@ struct HomeMenuView: View {
         ]
     }
     
-    // Environments from catalog.json
     var allEnvironments: [EnvironmentItem] {
         let iconMap: [String: String] = [
             "home": "house.fill",
@@ -30,25 +29,25 @@ struct HomeMenuView: View {
             "zoo": "tortoise.fill"
         ]
         let backgroundColorMap: [String: Color] = [
-            "home": Color(red: 0.2, green: 0.7, blue: 0.9),       // Bright cyan
-            "food": Color(red: 0.9, green: 0.3, blue: 0.4),       // Coral red
-            "pet_store": Color(red: 0.6, green: 0.2, blue: 0.8),  // Vibrant purple
-            "street": Color(red: 0.1, green: 0.8, blue: 0.3),     // Bright green
-            "garage": Color(red: 0.8, green: 0.5, blue: 0.2),     // Orange
-            "office": Color(red: 0.8, green: 0.2, blue: 0.6),     // Hot pink
-            "clothing": Color(red: 0.3, green: 0.6, blue: 0.8),   // Sky blue
-            "zoo": Color(red: 0.9, green: 0.7, blue: 0.2)         // Golden yellow
+            "home": Color(red: 0.2, green: 0.7, blue: 0.9),
+            "food": Color(red: 0.9, green: 0.3, blue: 0.4),
+            "pet_store": Color(red: 0.6, green: 0.2, blue: 0.8),
+            "street": Color(red: 0.1, green: 0.8, blue: 0.3),
+            "garage": Color(red: 0.8, green: 0.5, blue: 0.2),
+            "office": Color(red: 0.8, green: 0.2, blue: 0.6),
+            "clothing": Color(red: 0.3, green: 0.6, blue: 0.8),
+            "zoo": Color(red: 0.9, green: 0.7, blue: 0.2)
         ]
-        
+
         let foregroundColorMap: [String: Color] = [
-            "home": Color.white,                                   // White on cyan
-            "food": Color.white,                                   // White on coral red
-            "pet_store": Color.white,                               // White on purple
-            "street": Color.white,                                 // White on bright green
-            "garage": Color.white,                                 // White on orange
-            "office": Color.white,                                 // White on hot pink
-            "clothing": Color.white,                                // White on sky blue
-            "zoo": Color.white                                     // white on golden yellow
+            "home": .white,
+            "food": .white,
+            "pet_store": .white,
+            "street": .white,
+            "garage": .white,
+            "office": .white,
+            "clothing": .white,
+            "zoo": .white
         ]
 
         let envs = catalogStore.catalog.environments
@@ -69,7 +68,6 @@ struct HomeMenuView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Header
                 HStack {
                     Text("SnapLingo")
                         .font(.title2)
@@ -93,10 +91,8 @@ struct HomeMenuView: View {
                 .padding()
                 .background(.ultraThinMaterial)
                 
-                // Content
                 ScrollView {
                     VStack(spacing: 24) {
-                        // Welcome Section
                         VStack(spacing: 12) {
                             Text("Choose an environment")
                                 .font(.title)
@@ -110,7 +106,6 @@ struct HomeMenuView: View {
                         }
                         .padding(.top, 20)
                         
-                        // Environment Grid
                         LazyVGrid(columns: columns, spacing: 12) {
                             ForEach(allEnvironments, id: \.id) { item in
                                 EnvironmentCard(

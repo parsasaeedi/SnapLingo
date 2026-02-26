@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 import AVFoundation
 import Combine
-import AVFoundation  // make sure this import exists at the top
 
 struct GameSessionView: View {
     let environment: String
@@ -26,13 +25,10 @@ struct GameSessionView: View {
     
     var body: some View {
         ZStack {
-            // Camera Background
             CameraBackgroundView(cameraService: cameraService)
-            // Invisible listener to capture hardware volume button presses
             VolumeButtonListener(service: volumeService)
                 .frame(width: 0, height: 0)
             
-            // Loading overlay while camera initializes
             if showCameraLoading && cameraService.isAuthorized {
                 Color.black.opacity(0.7)
                     .overlay(
@@ -49,19 +45,15 @@ struct GameSessionView: View {
                     .ignoresSafeArea()
             }
 
-            // Game UI Overlay
             VStack(spacing: 0) {
-                // Top Bar with Progress
                 topBar
                 
                 Spacer()
                 
-                // Bottom Controls
                 bottomControls
             }
             .padding()
             
-            // Overlays
             if gameManager.showItemNotFound {
                 itemNotFoundOverlay
             }
@@ -74,29 +66,24 @@ struct GameSessionView: View {
                 gameCompleteOverlay
             }
             
-            // Timer expired overlay
             if gameManager.timeRemaining <= 0 && gameManager.isGameActive {
                 timerExpiredOverlay
             }
             
-            // Skip overlay
             if gameManager.showSkipOverlay {
                 skipOverlay
             }
         }
         .onAppear {
-            // Start session, using pre-fetched items if provided; fallback to catalog
             let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
             let items = (initialItems?.isEmpty == false) ? initialItems : CatalogStore.shared.items(in: key)
             gameManager.startSession(environment: environment, items: items, modelContext: modelContext)
-            // Start camera session after a brief delay to prevent UI freezing
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 if !cameraStarted {
                     cameraService.startSession()
                     cameraStarted = true
                 }
             }
-            // Hook volume buttons to shutter
             volumeService.onTrigger = { triggerShutter() }
         }
         .onReceive(cameraService.$isConfigured) { isConfigured in
@@ -112,7 +99,6 @@ struct GameSessionView: View {
         }
     }
 
-// A tiny invisible UIView to host MPVolumeView so hardware volume presses can be detected
 private struct VolumeButtonListener: UIViewRepresentable {
     let service: VolumeButtonShutterService
     func makeUIView(context: Context) -> UIView {
@@ -126,9 +112,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
     
     private var topBar: some View {
         VStack(spacing: 16) {
-            // Top Row: Score, Timer, Progress
             ZStack {
-                // Timer – always centered
                 HStack(spacing: 4) {
                     Image(systemName: "stopwatch")
                     Text("\(Int(gameManager.timeRemaining))s")
@@ -140,14 +124,11 @@ private struct VolumeButtonListener: UIViewRepresentable {
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-//                        .fill(.ultraThinMaterial)
                 )
                 .fixedSize()
                 .glassEffect()
 
-                // Left / Right items pinned to edges
                 HStack {
-                    // Trophy and Score
                     HStack(spacing: 8) {
                         Image(systemName: "trophy.fill")
                             .foregroundColor(.yellow)
@@ -159,13 +140,11 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     .padding(.vertical, 8)
                     .background(
                         RoundedRectangle(cornerRadius: 20)
-//                            .fill(.ultraThinMaterial)
                     )
                     .glassEffect()
 
                     Spacer()
 
-                    // Progress with Flag
                     HStack(spacing: 8) {
                         Image(systemName: "flag.fill")
                             .foregroundColor(.blue)
@@ -176,13 +155,11 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     .padding(.vertical, 8)
                     .background(
                         RoundedRectangle(cornerRadius: 20)
-//                            .fill(.ultraThinMaterial)
                     )
                     .glassEffect()
                 }
             }
             
-            // Search Target (bigger prompt)
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                 Text(displayName(for: gameManager.currentItem?.name))
@@ -193,7 +170,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 25)
-//                    .fill(.ultraThinMaterial)
             )
             .glassEffect()
         }
@@ -201,7 +177,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
     
     private var bottomControls: some View {
         VStack(spacing: 20) {
-            // Streak Display (above shutter button)
             if gameManager.currentStreak > 0 {
                 HStack(spacing: 8) {
                     Image(systemName: "flame.fill")
@@ -218,9 +193,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
                 )
             }
             
-            // Control Buttons
             HStack {
-                // Exit Button (bottom left with more padding)
                 Button(action: {
                     dismiss()
                 }) {
@@ -236,15 +209,12 @@ private struct VolumeButtonListener: UIViewRepresentable {
                 
                 Spacer()
                 
-                // Shutter Button (larger two circles design)
                 Button(action: { triggerShutter() }) {
                     ZStack {
-                        // Outer circle - white frosted glass
                         Circle()
                             .fill(.ultraThinMaterial)
                             .frame(width: 90, height: 90)
-                        
-                        // Inner circle - solid white
+
                         Circle()
                             .fill(isShutterPressed ? Color.white.opacity(0.6) : Color.white)
                             .frame(width: 75, height: 75)
@@ -255,7 +225,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
                 
                 Spacer()
                 
-                // Skip Button (bottom right with more padding)
                 Button(action: {
                     gameManager.skipCurrentItem()
                 }) {
@@ -270,7 +239,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
                 .padding(.trailing, 40)
             }
         }
-        .padding(.bottom, 0) // Move buttons closer to bottom edge
+        .padding(.bottom, 0)
             }
     private var timerExpiredOverlay: some View {
         ZStack {
@@ -278,7 +247,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
             
             VStack(spacing: 20) {
                 if let currentItem = gameManager.currentItem {
-                    // Show emoji or SF symbol
                     if currentItem.emoji != "❓" {
                         Text(currentItem.emoji)
                             .font(.system(size: largeIconSize))
@@ -302,7 +270,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
         }
         .ignoresSafeArea()
         .onAppear {
-            // Auto-advance after showing the answer
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 gameManager.nextItem()
             }
@@ -315,7 +282,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
             
             VStack(spacing: 20) {
                 if let currentItem = gameManager.currentItem {
-                    // Show emoji or SF symbol
                     if currentItem.emoji != "❓" {
                         Text(currentItem.emoji)
                             .font(.system(size: largeIconSize))
@@ -395,12 +361,10 @@ private struct VolumeButtonListener: UIViewRepresentable {
             Color.black.opacity(0.9)
             
             VStack(spacing: 30) {
-                // Trophy Icon
                 Image(systemName: "trophy.fill")
                     .font(.system(size: largeIconSize))
                     .foregroundColor(.yellow)
                 
-                // Results
                 VStack(spacing: 16) {
                     Text("Session Complete!")
                         .font(.largeTitle)
@@ -420,7 +384,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     }
                 }
                 
-                // Recap (simulated)
                 VStack(spacing: 12) {
                     Text("Session Recap")
                         .font(.headline)
@@ -439,7 +402,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
                         .fill(.ultraThinMaterial)
                 )
                 
-                // Continue Button
                 Button(action: {
                     dismiss()
                 }) {
@@ -470,7 +432,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
 
     private func triggerShutter() {
         withAnimation(.easeOut(duration: 0.12)) { isShutterPressed = true }
-        // Use silent frame capture to avoid system shutter sound
         cameraService.captureCurrentFrame { image in
             if let image = image {
                 gameManager.handleShutter(image: image, environmentKey: environment)
@@ -481,7 +442,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
         }
     }
 
-    // MARK: - Translations
     private func displayName(for english: String?) -> String {
         guard let english = english else { return "" }
         guard langCode != "en" else { return english }
@@ -494,8 +454,6 @@ private struct VolumeButtonListener: UIViewRepresentable {
     }
 }
 
-// removed attemptStartSession logic (caused first-load race)
-
 struct CameraBackgroundView: View {
     let cameraService: CameraService
     @ScaledMetric(relativeTo: .title) private var cameraIconSize: CGFloat = 60
@@ -503,12 +461,10 @@ struct CameraBackgroundView: View {
     var body: some View {
         ZStack {
             if cameraService.isAuthorized {
-                // Real camera preview
                 CameraPreviewView(cameraService: cameraService, isConfigured: cameraService.isConfigured)
                     .id(cameraService.isConfigured)
                     .background(Color.clear)
             } else {
-                // Fallback background
                 Rectangle()
                     .fill(
                         LinearGradient(
@@ -563,7 +519,7 @@ struct CameraPreviewView: UIViewRepresentable {
         pl.videoGravity = .resizeAspectFill
 
         if let c = pl.connection, c.isVideoRotationAngleSupported(90) {
-            c.videoRotationAngle = 90  // portrait
+            c.videoRotationAngle = 90
         }
         return view
     }

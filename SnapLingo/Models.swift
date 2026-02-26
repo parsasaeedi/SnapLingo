@@ -59,10 +59,6 @@ final class UserProgress {
     }
 }
 
-// GameEnvironment struct removed in favor of catalog.json (CatalogStore)
-
-// MARK: - Catalog models for catalog.json
-
 struct Catalog: Codable {
     let environments: [String: [Item]]
 }
