@@ -94,7 +94,7 @@ struct HomeMenuView: View {
                 ScrollView {
                     VStack(spacing: 24) {
                         VStack(spacing: 12) {
-                            Text("Choose an environment")
+                            Text("Pick a scene")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .multilineTextAlignment(.center)

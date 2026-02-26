@@ -80,7 +80,7 @@ struct SetupView: View {
                 .fontWeight(.bold)
                 .foregroundStyle(brandGradientHorizontal)
 
-            Text("Learn languages through photo scavenger hunts")
+            Text("Snap photos. Learn words. Have fun.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

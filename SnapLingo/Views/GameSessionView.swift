@@ -181,7 +181,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
                 HStack(spacing: 8) {
                     Image(systemName: "flame.fill")
                         .foregroundColor(.orange)
-                    Text("streak: \(gameManager.currentStreak)")
+                    Text("Streak: \(gameManager.currentStreak)")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                 }
@@ -315,7 +315,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     .font(.system(size: mediumIconSize))
                     .foregroundColor(.red)
                 
-                Text("Item not found!")
+                Text("Not quite!")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
@@ -390,7 +390,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                     
-                    Text("Great job! You showed excellent speed in finding common household items. Keep practicing to improve your vocabulary!")
+                    Text("Great job! Keep practicing to improve your vocabulary and discover new words!")
                         .font(.subheadline)
                         .foregroundColor(.white.opacity(0.8))
                         .multilineTextAlignment(.center)
