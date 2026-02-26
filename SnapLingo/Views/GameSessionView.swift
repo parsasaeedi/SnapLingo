@@ -127,31 +127,13 @@ private struct VolumeButtonListener: UIViewRepresentable {
     private var topBar: some View {
         VStack(spacing: 16) {
             // Top Row: Score, Timer, Progress
-            HStack {
-                // Trophy and Score
-                HStack(spacing: 8) {
-                    Image(systemName: "trophy.fill")
-                        .foregroundColor(.yellow)
-                    Text("\(gameManager.currentScore)")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-//                        .fill(.ultraThinMaterial)
-                )
-                .glassEffect()
-                
-                Spacer()
-                
-                // Timer (centered with fixed width and center-aligned text)
+            ZStack {
+                // Timer – always centered
                 HStack(spacing: 4) {
                     Image(systemName: "stopwatch")
                     Text("\(Int(gameManager.timeRemaining))s")
                         .fontWeight(.bold)
-                        .frame(minWidth: 30, alignment: .center)
+                        .monospacedDigit()
                 }
                 .foregroundColor(gameManager.timerColor)
                 .padding(.horizontal, 12)
@@ -160,25 +142,44 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     RoundedRectangle(cornerRadius: 20)
 //                        .fill(.ultraThinMaterial)
                 )
-                .frame(width: 80) // Fixed width for consistent positioning
+                .fixedSize()
                 .glassEffect()
-                
-                Spacer()
-                
-                // Progress with Flag
-                HStack(spacing: 8) {
-                    Image(systemName: "flag.fill")
-                        .foregroundColor(.blue)
-                    Text("\(gameManager.currentItemIndex + 1)/\(gameManager.currentSession?.items.count ?? 0)")
-                        .fontWeight(.semibold)
+
+                // Left / Right items pinned to edges
+                HStack {
+                    // Trophy and Score
+                    HStack(spacing: 8) {
+                        Image(systemName: "trophy.fill")
+                            .foregroundColor(.yellow)
+                        Text("\(gameManager.currentScore)")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+//                            .fill(.ultraThinMaterial)
+                    )
+                    .glassEffect()
+
+                    Spacer()
+
+                    // Progress with Flag
+                    HStack(spacing: 8) {
+                        Image(systemName: "flag.fill")
+                            .foregroundColor(.blue)
+                        Text("\(gameManager.currentItemIndex + 1)/\(gameManager.currentSession?.items.count ?? 0)")
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+//                            .fill(.ultraThinMaterial)
+                    )
+                    .glassEffect()
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-//                        .fill(.ultraThinMaterial)
-                )
-                .glassEffect()
             }
             
             // Search Target (bigger prompt)
