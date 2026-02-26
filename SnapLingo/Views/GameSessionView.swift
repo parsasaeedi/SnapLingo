@@ -12,7 +12,6 @@ struct GameSessionView: View {
     @AppStorage("langCode") private var langCode: String = "en"
     @StateObject private var cameraService = CameraService()
     private let volumeService = VolumeButtonShutterService()
-    @State private var cameraStarted = false
     @State private var showCameraLoading = true
     @State private var isShutterPressed = false
     @ScaledMetric(relativeTo: .largeTitle) private var largeIconSize: CGFloat = 80
@@ -78,12 +77,7 @@ struct GameSessionView: View {
             let key = environment.replacingOccurrences(of: " ", with: "_").lowercased()
             let items = (initialItems?.isEmpty == false) ? initialItems : CatalogStore.shared.items(in: key)
             gameManager.startSession(environment: environment, items: items, modelContext: modelContext)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                if !cameraStarted {
-                    cameraService.startSession()
-                    cameraStarted = true
-                }
-            }
+            cameraService.startSession()
             volumeService.onTrigger = { triggerShutter() }
         }
         .onReceive(cameraService.$isConfigured) { isConfigured in
@@ -94,7 +88,6 @@ struct GameSessionView: View {
         .onDisappear {
             gameManager.resetGame()
             cameraService.stopSession()
-            cameraStarted = false
             volumeService.stop()
         }
     }

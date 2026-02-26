@@ -114,7 +114,6 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
                 self.session.commitConfiguration()
 
                 DispatchQueue.main.async {
-                    self.isConfigured = true
                     self.isConfiguring = false
                 }
                 
@@ -129,9 +128,13 @@ class CameraService: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate, 
     
     func startSession() {
         guard !session.isRunning else { return }
-        
+
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.session.startRunning()
+            guard let self = self else { return }
+            self.session.startRunning()
+            DispatchQueue.main.async {
+                self.isConfigured = true
+            }
         }
     }
     
