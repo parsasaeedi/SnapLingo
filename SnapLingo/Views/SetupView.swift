@@ -5,6 +5,7 @@ struct SetupView: View {
     @State private var selectedLanguage = "English"
     @State private var showHomeMenu = false
     @AppStorage("langCode") private var langCode: String = "en"
+    @ScaledMetric(relativeTo: .largeTitle) private var headerIconSize: CGFloat = 80
 
     // Map of display label -> two-letter code
     private let languageMap: [String: String] = [
@@ -75,7 +76,7 @@ struct SetupView: View {
     private var headerSection: some View {
         VStack(spacing: 20) {
             Image(systemName: "camera.viewfinder")
-                .font(.system(size: 80))
+                .font(.system(size: headerIconSize))
                 .foregroundStyle(brandGradientDiagonal)
 
             Text("SnapLingo")

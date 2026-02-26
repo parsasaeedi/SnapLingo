@@ -179,6 +179,7 @@ struct PresentedEnv: Identifiable {
 struct EnvironmentCard: View {
     let environmentItem: EnvironmentItem
     let onTap: () -> Void
+    @ScaledMetric(relativeTo: .title2) private var cardIconSize: CGFloat = 32
     
     var nameLines: [String] {
         let words = environmentItem.name.components(separatedBy: " ")
@@ -200,7 +201,7 @@ struct EnvironmentCard: View {
                 VStack {
                     HStack {
                         Image(systemName: environmentItem.icon)
-                            .font(.system(size: 32, weight: .medium))
+                            .font(.system(size: cardIconSize, weight: .medium))
                             .foregroundColor(environmentItem.foregroundColor)
                             .shadow(color: Color(red: 0.078, green: 0.122, blue: 0.141).opacity(0.3), radius: 6, x: 0, y: 0)
                         Spacer()
@@ -214,7 +215,7 @@ struct EnvironmentCard: View {
                         VStack(alignment: .leading, spacing: 1) {
                             ForEach(nameLines, id: \.self) { line in
                                 Text(line)
-                                    .font(.system(size: 24, weight: .bold, design: .default))
+                                    .font(.title2.weight(.bold))
                                     .foregroundColor(environmentItem.foregroundColor)
                                     .shadow(color: Color(red: 0.078, green: 0.122, blue: 0.141).opacity(0.3), radius: 6, x: 0, y: 0)
                                     .multilineTextAlignment(.leading)

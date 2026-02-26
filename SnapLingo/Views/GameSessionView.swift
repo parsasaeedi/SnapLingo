@@ -16,6 +16,8 @@ struct GameSessionView: View {
     @State private var cameraStarted = false
     @State private var showCameraLoading = true
     @State private var isShutterPressed = false
+    @ScaledMetric(relativeTo: .largeTitle) private var largeIconSize: CGFloat = 80
+    @ScaledMetric(relativeTo: .title) private var mediumIconSize: CGFloat = 60
     
     init(environment: String, initialItems: [Item]? = nil) {
         self.environment = environment
@@ -278,10 +280,10 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     // Show emoji or SF symbol
                     if currentItem.emoji != "❓" {
                         Text(currentItem.emoji)
-                            .font(.system(size: 80))
+                            .font(.system(size: largeIconSize))
                     } else {
                         Image(systemName: "questionmark.circle.fill")
-                            .font(.system(size: 80))
+                            .font(.system(size: largeIconSize))
                             .foregroundColor(.white)
                     }
                     
@@ -315,10 +317,10 @@ private struct VolumeButtonListener: UIViewRepresentable {
                     // Show emoji or SF symbol
                     if currentItem.emoji != "❓" {
                         Text(currentItem.emoji)
-                            .font(.system(size: 80))
+                            .font(.system(size: largeIconSize))
                     } else {
                         Image(systemName: "questionmark.circle.fill")
-                            .font(.system(size: 80))
+                            .font(.system(size: largeIconSize))
                             .foregroundColor(.white)
                     }
                     
@@ -343,7 +345,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
             
             VStack(spacing: 20) {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 60))
+                    .font(.system(size: mediumIconSize))
                     .foregroundColor(.red)
                 
                 Text("Item not found!")
@@ -366,7 +368,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
             
             VStack(spacing: 20) {
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 60))
+                    .font(.system(size: mediumIconSize))
                     .foregroundColor(.green)
                 
                 Text("Perfect!")
@@ -394,7 +396,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
             VStack(spacing: 30) {
                 // Trophy Icon
                 Image(systemName: "trophy.fill")
-                    .font(.system(size: 80))
+                    .font(.system(size: largeIconSize))
                     .foregroundColor(.yellow)
                 
                 // Results
@@ -495,6 +497,7 @@ private struct VolumeButtonListener: UIViewRepresentable {
 
 struct CameraBackgroundView: View {
     let cameraService: CameraService
+    @ScaledMetric(relativeTo: .title) private var cameraIconSize: CGFloat = 60
     
     var body: some View {
         ZStack {
@@ -516,7 +519,7 @@ struct CameraBackgroundView: View {
                 
                 VStack {
                     Image(systemName: "camera.fill")
-                        .font(.system(size: 60))
+                        .font(.system(size: cameraIconSize))
                         .foregroundColor(.secondary)
                     
                     Text("Camera access required")
