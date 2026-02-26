@@ -90,7 +90,7 @@ struct SetupView: View {
 
     private var languageSection: some View {
         VStack(spacing: 20) {
-            Text("Choose your language")
+            Text("I want to learn...")
                 .font(.title2)
                 .fontWeight(.semibold)
 
